@@ -26,6 +26,7 @@ const initialState = {
       };
 
     case USER.FILTERED_DATA:
+      console.log('action.payload',action.payload);
       return{
         ...state,
         filterData: action?.payload,

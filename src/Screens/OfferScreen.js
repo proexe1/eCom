@@ -19,7 +19,7 @@ import {GlobalStyle} from '../Helpers/GlobalStyle';
 
 const OfferScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [category, setCategory] = useState(['All View']);
+  const [category, setCategory] = useState();
   const {
     usersData,
     isLoading,
@@ -27,8 +27,9 @@ const OfferScreen = ({navigation}) => {
   } = useSelector(state => state);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState();
-  const [abcData, setAbcData] = useState('All View');
+  const [abcData, setAbcData] = useState();
 
+  console.log('filterData2--',category , filterData2);
   const data = [
     {url: Images.All},
     {url: Images.Phone},
@@ -74,6 +75,8 @@ const OfferScreen = ({navigation}) => {
     const temp = Products?.products.filter(item => item.category == category);
     dispatch(filterData(temp));
   };
+  console.log("-------------",searchText.length > 0? filteredData:abcData === 'All View' ? Products.products: filterData2);
+
 
   const renderItem = ({item, index}) => {
     return (
@@ -223,7 +226,7 @@ const OfferScreen = ({navigation}) => {
         style={styles.FlashSaleFlatList}
         showsHorizontalScrollIndicator={false}
         // data={searchText.length > 0 ? filteredData : Products?.products }
-        data={searchText.length > 0? filteredData:abcData == 'All View' ? Products.products: filterData2}
+        data={searchText.length > 0? filteredData:abcData === 'All View' ? Products.products: filterData2 || Products.products}
         renderItem={FlashSaleItem}
         numColumns={2}
         showsVerticalScrollIndicator={false}
