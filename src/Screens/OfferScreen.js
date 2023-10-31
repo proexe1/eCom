@@ -76,9 +76,6 @@ const OfferScreen = ({navigation}) => {
   };
 
   const renderItem = ({item, index}) => {
-    const finalUrl = data.map(item => {
-      return item.url;
-    });
     return (
       <TouchableOpacity
         style={styles.categoryParentView}
@@ -226,13 +223,7 @@ const OfferScreen = ({navigation}) => {
         style={styles.FlashSaleFlatList}
         showsHorizontalScrollIndicator={false}
         // data={searchText.length > 0 ? filteredData : Products?.products }
-        data={
-          searchText.length > 0
-            ? filteredData
-            : abcData == 'All View'
-            ? Products.products
-            : filterData2
-        }
+        data={searchText.length > 0? filteredData:abcData == 'All View' ? Products.products: filterData2}
         renderItem={FlashSaleItem}
         numColumns={2}
         showsVerticalScrollIndicator={false}
