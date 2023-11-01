@@ -1,7 +1,7 @@
 import USER from '../Constant';
 
 export const filterData = filteredData => async dispatch=> {
-  console.log('filteredData..........',filteredData);
+  // console.log('filteredData..........',filteredData);
   dispatch({
     type:USER.FILTERED_DATA,
     payload: filteredData,

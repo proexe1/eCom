@@ -32,7 +32,7 @@ const Explore = ({navigation}) => {
   const [flashSale, setFlashSale] = useState([]);
   const {usersData, isLoading} = useSelector(state => state);
   const dispatch = useDispatch();
-  console.log('Products*****************',Products);
+  // console.log('Products*****************',Products);
 
   useEffect(() => {
     abc();

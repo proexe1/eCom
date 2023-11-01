@@ -17,7 +17,7 @@ import Button from '../Components/Button';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 
 const ProductDetail = ({navigation, item}) => {
-  console.log('item-******',item);
+  console.log('item-******', item);
   const [activeIndex, setActiveIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const route = useRoute().params;
@@ -36,7 +36,6 @@ const ProductDetail = ({navigation, item}) => {
   const ratingCompleted = rating => {
     console.log('Rating is: ' + rating);
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,36 +94,26 @@ const ProductDetail = ({navigation, item}) => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: 8,flexDirection:'row'}}>
+        <View style={{marginTop: 8, flexDirection: 'row'}}>
           <FlatList
-          style={{}}
             scrollEnabled={false}
             data={Array(Number(5)).fill('')}
             horizontal
-            renderItem={(index) => {
-              console.log('index------------',index)
-              console.log(' route?.rating*****************************************', route?.rating)
-              return (index > route?.rating.toFixed(0) ? <Image style={{height: 20, width: 20}} source={Images.Yellow_Star}/>:<Image style={{height: 20, width: 20}} source={Images.All}/> )
-              //  <Image style={{height: 20, width: 20}} source={Images.Yellow_Star}/>;
+            renderItem={({index}) => {
+              console.log(index, route?.rating.toFixed(0));
+              return index < Number(route?.rating.toFixed(0)) ? (
+                <Image
+                  style={{height: 20, width: 20}}
+                  source={Images.Yellow_Star}
+                />
+              ) : (
+                <Image
+                  style={{height: 20, width: 20, tintColor: '#E8E8E8'}}
+                  source={Images.Yellow_Star}
+                />
+              );
             }}
           />
-          {/* <FlatList
-          style={{ }}
-            scrollEnabled={false}
-            data={Array(Number(5-route?.rating?.toFixed(0))).fill('')}
-            horizontal
-            renderItem={() => {
-              return  <Image style={{height: 20, width: 20
-              }} source={Images.Notification}/>
-            }}
-          /> */}
-          {/* <Rating
-            type="star"
-            readonly
-            ratingCount={5}
-            imageSize={30}
-            onFinishRating={route?.rating}
-          /> */}
         </View>
         <Text style={styles.ProductPrice}>${route?.price}</Text>
         <View style={{marginTop: 24}}>
@@ -148,10 +137,14 @@ const ProductDetail = ({navigation, item}) => {
           </View>
           <View style={styles.ProductOtherInfo}>
             <Text style={styles.ProductInfoLabel}>Category : </Text>
-            <Text style={styles.ProductInfo}>{route?.category}</Text>
+            <Text style={styles.ProductInfo}>{route.category}</Text>
           </View>
-          <Text style={styles.ProductInfo}>{route?.category}</Text>
-          <View style={{width:40,height:40,backgroundColor:'red'}}><Image source={{uri:route?.thumbnail}}/></View>
+          <View style={{width: 40, height: 40, backgroundColor: 'red'}}>
+            <Image
+              style={{width: 40, height: 40}}
+              source={{uri: route?.thumbnail}}
+            />
+          </View>
         </View>
         <View>
           <Button
@@ -294,4 +287,25 @@ export default ProductDetail;
                 <Text>{item.brand}</Text>
             )
           })} */
+}
+{
+  /* <FlatList
+          style={{ }}
+            scrollEnabled={false}
+            data={Array(Number(5-route?.rating?.toFixed(0))).fill('')}
+            horizontal
+            renderItem={() => {
+              return  <Image style={{height: 20, width: 20
+              }} source={Images.Notification}/>
+            }}
+          /> */
+}
+{
+  /* <Rating
+            type="star"
+            readonly
+            ratingCount={5}
+            imageSize={30}
+            onFinishRating={route?.rating}
+          /> */
 }

@@ -28,8 +28,9 @@ const OfferScreen = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState();
   const [abcData, setAbcData] = useState();
+  const [starData, setStarData] = useState();
+  console.log('filterData2--', abcData);
 
-  console.log('filterData2--',category , filterData2);
   const data = [
     {url: Images.All},
     {url: Images.Phone},
@@ -70,19 +71,49 @@ const OfferScreen = ({navigation}) => {
     setCategory(unique);
   };
 
-  const FilterCategory = category => {
+  const handleFilterCategory = category => {
     setAbcData(category);
     const temp = Products?.products.filter(item => item.category == category);
     dispatch(filterData(temp));
   };
-  console.log("-------------",searchText.length > 0? filteredData:abcData === 'All View' ? Products.products: filterData2);
 
+  // const handleStarCategory = item => {
+  //   console.log('star', item);
+  //   setStarData(item);
+  //   let tmpFilterItem = []
+  //   const temp = Products?.products.filter(star => {
+  //     console.log('star.category',star.category == abcData);
+  //     if (star.rating == item && star.category == abcData) {
+  //      tmpFilterItem.push(star)
+  //     }
+  //   });
+  //   console.log('item--------------mmm', tmpFilterItem, temp);
 
+  //   dispatch(filterData(temp));
+  // };
+
+  const handleStarCategory = (item) =>{
+    setStarData(item);
+    const temp = Products?.products.filter(star => star.rating == item);
+    dispatch(filterData(temp));
+  }
+
+  const handleFilterData  = () =>{
+    const temp = Products.products
+    .filter(item =>{
+      item.category == category
+    })
+    .filter(item =>{
+      item.rating == item
+    })
+    // console.log('temp----------iii',rating);
+    setFilteredData(temp)
+  }
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         style={styles.categoryParentView}
-        onPress={() => FilterCategory(item.category)}>
+        onPress={() => handleFilterCategory(item.category)}>
         <View
           style={{
             ...styles.categoryImageView,
@@ -112,17 +143,25 @@ const OfferScreen = ({navigation}) => {
                 paddingVertical: 8,
                 fontFamily: 'Poppins-Thin',
               }}>
+              {' '}
               {item.title}
             </Text>
-            <FlatList
-              style={{paddingBottom: 16, fontFamily: 'Poppins-Thin'}}
-              scrollEnabled={false}
-              data={Array(Number(item?.rating?.toFixed(0))).fill('')}
-              horizontal
-              renderItem={() => {
-                return <Text>⭐️</Text>;
-              }}
-            />
+          <FlatList
+            scrollEnabled={false}
+            data={Array(Number(5)).fill('')}
+            horizontal
+            renderItem={({index}) => {
+              console.log(index , item?.rating.toFixed(0))
+              return index < Number(item?.rating.toFixed(0)) ? (
+                <Image
+                  style={{height: 20, width: 20}}
+                  source={Images.Yellow_Star}
+                />
+              ) : (
+                <Image style={{height: 20, width: 20,tintColor:'#E8E8E8'}} source={Images.Yellow_Star} />
+              );
+            }}
+          />
             <Text
               style={{
                 ...styles.ThumbnailName,
@@ -159,7 +198,6 @@ const OfferScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Header /> */}
       <View style={styles.SearchAreaPortion}>
         <View style={styles.Searchbar}>
           <TextInput
@@ -199,13 +237,24 @@ const OfferScreen = ({navigation}) => {
         </View>
         <View style={{flexDirection: 'row'}}>
           <FlatList
-            data={abc}
+            data={['View All', '1', '2', '3', '4', '5']}
             renderItem={({item}) => (
-              <TouchableOpacity style={styles.RatingFlatList}>
+              <TouchableOpacity
+                style={{
+                  ...styles.RatingFlatList,
+                  borderColor: item == starData ? '#40BFFF' : '#EBF0FF',
+                }}
+                onPress={() => handleFilterData(item)}>
                 {item == 'View All' ? (
                   <Text>{item}</Text>
                 ) : (
-                  <Text>⭐️ {item}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      style={{width: 20, height: 20}}
+                      source={Images.Star}
+                    />
+                    <Text>{item}</Text>
+                  </View>
                 )}
               </TouchableOpacity>
             )}
@@ -220,13 +269,19 @@ const OfferScreen = ({navigation}) => {
           <Text>Data loading...</Text>
         </View>
       )}
-      {console.log('category', abcData)}
       <FlatList
         bounces={false}
         style={styles.FlashSaleFlatList}
         showsHorizontalScrollIndicator={false}
         // data={searchText.length > 0 ? filteredData : Products?.products }
-        data={searchText.length > 0? filteredData:abcData === 'All View' ? Products.products: filterData2 || Products.products}
+        data={
+          searchText.length > 0
+            ? filteredData
+            : abcData === 'All View' || starData === 'View All'
+            ? Products.products
+            : filterData2 || Products.products
+        }
+        // data={searchText.length > 0? filteredData : starData == 'View All' ? Products.products : filterData2 || Products.products}
         renderItem={FlashSaleItem}
         numColumns={2}
         showsVerticalScrollIndicator={false}

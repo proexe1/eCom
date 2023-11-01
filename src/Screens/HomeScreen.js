@@ -31,8 +31,8 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.FlashSaleItem}>
         <Image style={styles.FlashSaleImage} source={{uri: item.thumbnail}} />
         <View style={styles.FlashImageData}>
-          <Text style={{...styles.CategoryName, paddingBottom: 8,fontFamily:'Poppins-Light'}}>
-            {item.category}
+          <Text numberOfLines={1} style={{...styles.CategoryName, paddingBottom: 8,fontFamily:'Poppins-Light'}}>
+            {item.title}
           </Text>
           <Text
             style={{

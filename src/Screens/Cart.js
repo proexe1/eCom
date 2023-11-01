@@ -14,7 +14,7 @@ import {useRoute} from '@react-navigation/native';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
 
 const Cart = ({navigation, item}) => {
-  console.log('item-------------====',item);
+  console.log('item-------------====', item);
   const [activeIndex, setActiveIndex] = useState(0);
   const route = useRoute().params;
 
@@ -30,65 +30,27 @@ const Cart = ({navigation, item}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={{marginHorizontal: 16}}>
-        <Image style={{width:30 , height:30,backgroundColor:'red'}} source={{uri:route?.Thumbnail}}/>
-          <View style={styles.ProductNameAndLike}>
-            <Text style={{...styles.ThumbnailName,fontSize: 20}}>
-              {route?.title}
-            </Text>
-            <TouchableOpacity>
-              <Image style={styles.Like} source={Images.love} />
-            </TouchableOpacity>
-          </View>
-          <View style={{marginTop: 8}}>
-            {route?.rating && <FlatList
-              scrollEnabled={false}
-              data={Array(Number(route?.rating?.toFixed(0))).fill('')}
-              horizontal
-              renderItem={() => {
-                return <Text>⭐️</Text>;
-              }}
-            />}
-          </View>
-          <Text
-            style={styles.ProductPrice}>
-            ₹{route?.price}
-          </Text>
-          <View style={{marginTop: 24}}>
-            <Text style={{...styles.ThumbnailName,fontSize: 20}}>Specification</Text>
-            <Text style={styles.ProductDescription}>
-              {route?.description}
-            </Text>
-            <View
-              style={styles.ProductOtherInfo}>
-              <Text style={styles.ProductInfoLabel}>Discount : </Text>
-              <Text style={styles.ProductInfo}>
-                {route?.discountPercentage} %
-              </Text>
-            </View>
-            <View
-              style={styles.ProductOtherInfo}>
-              <Text style={styles.ProductInfoLabel}>Stock : </Text>
-              <Text style={styles.ProductInfo}>
-                {route?.stock}
-              </Text>
-            </View>
-            <View
-              style={styles.ProductOtherInfo}>
-              <Text style={styles.ProductInfoLabel}>Brand : </Text>
-              <Text style={styles.ProductInfo}>
-                {route?.brand}
-              </Text>
-            </View>
-            <View
-              style={styles.ProductOtherInfo}>
-              <Text style={styles.ProductInfoLabel}>Category : </Text>
-              <Text style={styles.ProductInfo}>
-                {route?.category}
-              </Text>
-            </View>
-          </View>
+      <View style={styles.cartProduct}>
+        <Image
+          style={styles.cartProductImage}
+          source={{uri: route.thumbnail}}
+        />
+        <View style={{flexDirection:'row',flex:1,justifyContent:'space-between'}}>
+        <View style={{justifyContent:'space-between',paddingRight:12}}>
+            <Text style={{fontWeight:'bold'}}>{route.title}</Text>
+            <Text style={{fontWeight:'bold',color:'#40BFFF'}}>${route?.price}</Text>
         </View>
+        <View style={{flexDirection: 'row', }}>
+            <TouchableOpacity style={{paddingRight:10,}}>
+              <Image style={styles.like} source={Images.love} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image style={{...styles.like}} source={Images.Trash} />
+            </TouchableOpacity>
+        </View>
+
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -97,68 +59,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  SingleLine: {
-    height: hp(0.2),
-    backgroundColor: '#EBF0FF',
-    marginVertical: wp(4.2),
-    width: hp(100),
-  },
-  CategoryHeading: {flexDirection: 'row', justifyContent: 'space-between'},
-  FirstHeader: {fontSize: wp(4), fontWeight: '700', color: '#223263'},
-  SecondHeader: {fontSize: wp(4), fontWeight: '700', color: '#40BFFF'},
-  SearchAreaPortion: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: hp(1.9),
-  },
-  category_Image: {
-    width: wp(18.66),
-    height: wp(18.66),
-    tintColor: '#40BFFF',
-    borderWidth: 1,
-    backgroundColor: 'white',
-    borderRadius: wp(18.66),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#EBF0FF',
-  },
-  imageStyle: {
-    resizeMode: 'contain',
-    width: wp(91.46),
-    height: hp(25.36),
-  },
-  FlashSaleParentView: {
-    width: wp(37.6),
-    height: hp(25.86),
-    marginLeft:wp(4.2),
+  cartProduct: {
+    marginHorizontal: 16,
     borderWidth: 2,
+    borderColor:'#EBF0FF',
     borderRadius: 5,
-    alignItems: 'center',
-    borderColor: '#EBF0FF',
-  },
-  ThumbnailImage: {width: wp(29.60), height: hp(13.42), marginTop: hp(1.9)},
-  ThumbnailName: GlobalStyle.fontWeight,
-  HeaderParentView: {
-    marginHorizontal: wp(4.2),
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  ProductNameAndLike:{flexDirection: 'row', justifyContent: 'space-between'},
-  Like:{width: wp(6.4), height: wp(6.4)},
-  ProductPrice:{
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#40BFFF',
-    marginTop: hp(1.9),
-  },
-  ProductDescription:{fontSize: 15, fontWeight: '600', marginTop: hp(1.4)},
-  ProductOtherInfo:{
-    flexDirection: 'row',
-    marginTop: hp(1.23),
-    alignItems: 'center',
-  },
-  ProductInfoLabel:{fontSize: 15, fontWeight: '600'},
-  ProductInfo:{color: '#40BFFF', fontWeight: '500', fontSize: 17}
+  cartProductImage: {width: 72, height: 72},
+  like: {width: wp(6.4), height: wp(6.4)},
 });
 
 export default Cart;
