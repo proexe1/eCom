@@ -28,5 +28,6 @@ export const Images = {
   Home : require('../Assests/home.png'),
   Offer: require('../Assests/Offer.png'),
   Heart: require('../Assests/heart.png'),
-  Yellow_Star: require('../Assests/yellow_star.png')
+  Yellow_Star: require('../Assests/yellow_star.png'),
+  No_Found: require('../Assests/NotFound.png')
 };

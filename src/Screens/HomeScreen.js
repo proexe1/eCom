@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  ImageBackground,
   SafeAreaView
 } from 'react-native';
 import {hp, wp} from '../Helpers/Constant';
@@ -15,10 +14,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {requestUsers} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
 
   const dispatch = useDispatch();
+  const cart = useSelector(state => state);
+  // console.log('cartcaASDASASASASASSASASASASASADFASFDSFVDASFVDSrtcart', cart);
+  const {navigate} = useNavigation();
+  const route = useRoute().params;
 
   useEffect(() => {
     dispatch(requestUsers(Products?.products));
@@ -29,6 +33,7 @@ const HomeScreen = ({navigation}) => {
   const FlashSaleItem = ({item, index}) => {
     return (
       <View style={styles.FlashSaleItem}>
+      <TouchableOpacity onPress={()=>navigate('ProductDetail')}>
         <Image style={styles.FlashSaleImage} source={{uri: item.thumbnail}} />
         <View style={styles.FlashImageData}>
           <Text numberOfLines={1} style={{...styles.CategoryName, paddingBottom: 8,fontFamily:'Poppins-Light'}}>
@@ -44,7 +49,7 @@ const HomeScreen = ({navigation}) => {
             $ {item.price}
           </Text>
           <View style={{flexDirection:'row'}}>
-          <Text style={{color:'gray',textDecorationLine: 'line-through',}}>$800 </Text>
+          <Text style={{color:'gray',textDecorationLine: 'line-through',}}>$800</Text>
             <Text
               style={{
                 ...styles.CategoryName,
@@ -56,6 +61,7 @@ const HomeScreen = ({navigation}) => {
             </Text>
           </View>
         </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -71,7 +77,7 @@ const HomeScreen = ({navigation}) => {
         )}
         <View style={{...styles.CategoryHeading, marginTop: hp(1.5)}}>
           <Text style={styles.FirstHeader}>Flash Sale</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('OfferScreen')}>
+          <TouchableOpacity onPress={() =>navigate('OfferScreen')}>
             <Text style={styles.SecondHeader}>See More</Text>
           </TouchableOpacity>
         </View>

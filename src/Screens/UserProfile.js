@@ -46,19 +46,12 @@ const UserProfile = ({navigation}) => {
               auth()
                 .signOut()
                 .then(() => console.log('User signed out!'));
-              navigation.dispatch(StackActions.replace('LoginUser'));
+              // navigation.dispatch(StackActions.replace('LoginUser'));
             }}
             style={styles.LogOutButton}>
             <Text style={styles.LogOutString}>Log Out</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={{ paddingVertical: hp(2),borderWidth:1, marginHorizontal: wp(4), marginTop: hp(2) }}>
-        <TextInput
-          placeholder="Search"
-          onChangeText={text => setText(text)}
-          value={text}
-        />
       </View>
     </SafeAreaView>
   );

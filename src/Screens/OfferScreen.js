@@ -16,20 +16,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import {filterData, requestUsers} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
+import NoProductFound from '../Components/NoProductFound';
 
 const OfferScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState(['All View']);
   const {
     usersData,
     isLoading,
-    filterData: filterData2,
+    filterData:filterData2,
   } = useSelector(state => state);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState();
-  const [abcData, setAbcData] = useState();
+  const [abcData, setAbcData] = useState('All View');
   const [starData, setStarData] = useState();
-  console.log('filterData2--', abcData);
 
   const data = [
     {url: Images.All},
@@ -40,8 +40,6 @@ const OfferScreen = ({navigation}) => {
     {url: Images.groceries},
     {url: Images.HomeDecore},
   ];
-
-  const abc = ['View All', '1', '2', '3', '4', '5'];
 
   useEffect(() => {
     dispatch(requestUsers(Products?.products));
@@ -54,7 +52,6 @@ const OfferScreen = ({navigation}) => {
     const filtered = Products?.products.filter(item =>
       item.title.toLowerCase().includes(text.toLowerCase()),
     );
-
     setFilteredData(filtered);
   };
 
@@ -70,45 +67,25 @@ const OfferScreen = ({navigation}) => {
     });
     setCategory(unique);
   };
-
+  
   const handleFilterCategory = category => {
     setAbcData(category);
     const temp = Products?.products.filter(item => item.category == category);
     dispatch(filterData(temp));
   };
 
-  // const handleStarCategory = item => {
-  //   console.log('star', item);
-  //   setStarData(item);
-  //   let tmpFilterItem = []
-  //   const temp = Products?.products.filter(star => {
-  //     console.log('star.category',star.category == abcData);
-  //     if (star.rating == item && star.category == abcData) {
-  //      tmpFilterItem.push(star)
-  //     }
-  //   });
-  //   console.log('item--------------mmm', tmpFilterItem, temp);
-
-  //   dispatch(filterData(temp));
-  // };
-
-  const handleStarCategory = (item) =>{
+  const handleStarCategory = item => {
     setStarData(item);
-    const temp = Products?.products.filter(star => star.rating == item);
+    const temp = Products?.products.filter(star => {
+      console.log('abcData.......', abcData);
+      if (star.category == abcData && Math.round(star.rating) == item) {
+        return star;
+      } else if (star.category == abcData && item === 'View All') {
+        return abcData;
+      }
+    });
     dispatch(filterData(temp));
-  }
-
-  const handleFilterData  = () =>{
-    const temp = Products.products
-    .filter(item =>{
-      item.category == category
-    })
-    .filter(item =>{
-      item.rating == item
-    })
-    // console.log('temp----------iii',rating);
-    setFilteredData(temp)
-  }
+  };
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -143,25 +120,26 @@ const OfferScreen = ({navigation}) => {
                 paddingVertical: 8,
                 fontFamily: 'Poppins-Thin',
               }}>
-              {' '}
               {item.title}
             </Text>
-          <FlatList
-            scrollEnabled={false}
-            data={Array(Number(5)).fill('')}
-            horizontal
-            renderItem={({index}) => {
-              console.log(index , item?.rating.toFixed(0))
-              return index < Number(item?.rating.toFixed(0)) ? (
-                <Image
-                  style={{height: 20, width: 20}}
-                  source={Images.Yellow_Star}
-                />
-              ) : (
-                <Image style={{height: 20, width: 20,tintColor:'#E8E8E8'}} source={Images.Yellow_Star} />
-              );
-            }}
-          />
+            <FlatList
+              scrollEnabled={false}
+              data={Array(Number(5)).fill('')}
+              horizontal
+              renderItem={({index}) => {
+                return index < Number(item?.rating.toFixed(0)) ? (
+                  <Image
+                    style={{height: 20, width: 20}}
+                    source={Images.Yellow_Star}
+                  />
+                ) : (
+                  <Image
+                    style={{height: 20, width: 20, tintColor: '#E8E8E8'}}
+                    source={Images.Yellow_Star}
+                  />
+                );
+              }}
+            />
             <Text
               style={{
                 ...styles.ThumbnailName,
@@ -207,7 +185,7 @@ const OfferScreen = ({navigation}) => {
             onChangeText={handleSearch}
           />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('LikeProduct')}>
           <Image style={styles.SocialIcon} source={Images.love} />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -224,44 +202,40 @@ const OfferScreen = ({navigation}) => {
             <Text style={styles.SecondHeader}>More Category</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <FlatList
-            bounces={false}
-            style={{marginTop: 12}}
-            showsHorizontalScrollIndicator={false}
-            data={category}
-            renderItem={renderItem}
-            keyExtractor={({index}) => index}
-            horizontal={true}
-          />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <FlatList
-            data={['View All', '1', '2', '3', '4', '5']}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                style={{
-                  ...styles.RatingFlatList,
-                  borderColor: item == starData ? '#40BFFF' : '#EBF0FF',
-                }}
-                onPress={() => handleFilterData(item)}>
-                {item == 'View All' ? (
+
+        <FlatList
+          bounces={false}
+          style={{marginTop: 12}}
+          showsHorizontalScrollIndicator={false}
+          data={category}
+          renderItem={renderItem}
+          keyExtractor={({index}) => index}
+          horizontal={true}
+        />
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <FlatList
+          data={['View All', '1', '2', '3', '4', '5']}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              style={{
+                ...styles.RatingFlatList,
+                borderColor: item == starData ? '#40BFFF' : '#EBF0FF',
+              }}
+              onPress={() => handleStarCategory(item)}>
+              {item == 'View All' ? (
+                <Text>{item}</Text>
+              ) : (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image style={{width: 20, height: 20}} source={Images.Star} />
                   <Text>{item}</Text>
-                ) : (
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Image
-                      style={{width: 20, height: 20}}
-                      source={Images.Star}
-                    />
-                    <Text>{item}</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+                </View>
+              )}
+            </TouchableOpacity>
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
 
       {isLoading && (
@@ -270,6 +244,7 @@ const OfferScreen = ({navigation}) => {
         </View>
       )}
       <FlatList
+        ListEmptyComponent={<NoProductFound />}
         bounces={false}
         style={styles.FlashSaleFlatList}
         showsHorizontalScrollIndicator={false}
@@ -277,9 +252,9 @@ const OfferScreen = ({navigation}) => {
         data={
           searchText.length > 0
             ? filteredData
-            : abcData === 'All View' || starData === 'View All'
+            : abcData === 'All View'
             ? Products.products
-            : filterData2 || Products.products
+            : filterData2
         }
         // data={searchText.length > 0? filteredData : starData == 'View All' ? Products.products : filterData2 || Products.products}
         renderItem={FlashSaleItem}

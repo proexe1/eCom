@@ -5,9 +5,7 @@ import {hp, wp} from '../Helpers/Constant';
 const Button = ({name, onPress}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={[styles.Btn, styles.elevation]}
-        onPress={onPress}>
+      <TouchableOpacity style={[styles.Btn, styles.elevation]} onPress={onPress}>
         <Text style={styles.Btn_text}>{name}</Text>
       </TouchableOpacity>
     </View>

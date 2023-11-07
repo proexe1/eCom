@@ -61,7 +61,7 @@ const TabNavigation = () => {
         component={Explore}
         options={{headerShown: false}}
       />
-      <Tab.Screen name="Cart" component={Cart} />
+      <Tab.Screen name="Cart" component={Cart} options={{headerShown: false}} />
       <Tab.Screen
         name="OfferScreen"
         component={OfferScreen}

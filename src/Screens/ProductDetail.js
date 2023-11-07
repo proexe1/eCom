@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {hp, wp} from '../Helpers/Constant';
@@ -14,16 +15,17 @@ import {useRoute} from '@react-navigation/native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
 import Button from '../Components/Button';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart} from '../Redux/Actions/Actions';
+import USER from '../Redux/Constant';
 
 const ProductDetail = ({navigation, item}) => {
-  console.log('item-******', item);
+  const dispatch = useDispatch();
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const route = useRoute().params;
   const isCarousel = useRef(null);
-
-  console.log('route--------------------------======', route);
 
   const renderItem = ({item, index}) => {
     return (
@@ -33,126 +35,133 @@ const ProductDetail = ({navigation, item}) => {
     );
   };
 
-  const ratingCompleted = rating => {
-    console.log('Rating is: ' + rating);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.HeaderParentView}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image style={styles.Left} source={Images.Left} />
-          </TouchableOpacity>
-          <Text style={styles.ProductTitle}>{route.title}</Text>
+      <ScrollView bounces={false}>
+        <View style={styles.HeaderParentView}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image style={styles.Left} source={Images.Left} />
+            </TouchableOpacity>
+            <Text style={styles.ProductTitle}>{route.title}</Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity>
+              <Image style={styles.Left} source={Images.Searchbar} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image style={styles.Menu} source={Images.Menu} />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
-            <Image style={styles.Left} source={Images.Searchbar} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image style={styles.Menu} source={Images.Menu} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.SingleLine} />
-      <View style={{marginHorizontal: 16}}>
-        <View>
-          <Carousel
-            data={route.images}
-            renderItem={renderItem}
-            sliderWidth={hp(100)}
-            itemWidth={hp(100)}
-            onSnapToItem={index => {
-              setActiveIndex(index);
-            }}
-          />
-          <Pagination
-            style={styles.Pagination}
-            activeDotIndex={activeIndex}
-            carouselRef={isCarousel}
-            tappableDots={true}
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.6}
-            dotsLength={route.images.length}
-            inactiveDotStyle={{
-              backgroundColor: 'grey',
-              width: 10,
-              height: 10,
-            }}
-          />
-        </View>
-        <View style={styles.ProductNameAndLike}>
-          <Text style={{...styles.ThumbnailName, fontSize: 20}}>
-            {route?.title}
-          </Text>
-          <TouchableOpacity onPress={() => setLiked(isLiked => !isLiked)}>
-            {liked ? (
-              <Image style={styles.Like} source={Images.love} />
-            ) : (
-              <Image style={styles.Like} source={Images.Heart} />
-            )}
-          </TouchableOpacity>
-        </View>
-        <View style={{marginTop: 8, flexDirection: 'row'}}>
-          <FlatList
-            scrollEnabled={false}
-            data={Array(Number(5)).fill('')}
-            horizontal
-            renderItem={({index}) => {
-              console.log(index, route?.rating.toFixed(0));
-              return index < Number(route?.rating.toFixed(0)) ? (
-                <Image
-                  style={{height: 20, width: 20}}
-                  source={Images.Yellow_Star}
-                />
-              ) : (
-                <Image
-                  style={{height: 20, width: 20, tintColor: '#E8E8E8'}}
-                  source={Images.Yellow_Star}
-                />
-              );
-            }}
-          />
-        </View>
-        <Text style={styles.ProductPrice}>${route?.price}</Text>
-        <View style={{marginTop: 24}}>
-          <Text style={{...styles.ThumbnailName, fontSize: 20}}>
-            Specification
-          </Text>
-          <Text style={styles.ProductDescription}>{route?.description}</Text>
-          <View style={styles.ProductOtherInfo}>
-            <Text style={styles.ProductInfoLabel}>Discount : </Text>
-            <Text style={styles.ProductInfo}>
-              {route?.discountPercentage} %
+        <View style={styles.SingleLine} />
+        <View style={{marginHorizontal: 16}}>
+          <View>
+            <Carousel
+              data={route.images}
+              renderItem={renderItem}
+              sliderWidth={hp(100)}
+              itemWidth={hp(100)}
+              onSnapToItem={index => {
+                setActiveIndex(index);
+              }}
+            />
+            <Pagination
+              style={styles.Pagination}
+              activeDotIndex={activeIndex}
+              carouselRef={isCarousel}
+              tappableDots={true}
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}
+              dotsLength={route.images.length}
+              inactiveDotStyle={{
+                backgroundColor: 'grey',
+                width: 10,
+                height: 10,
+              }}
+            />
+          </View>
+          <View style={styles.ProductNameAndLike}>
+            <Text style={{...styles.ThumbnailName, fontSize: 20}}>
+              {route?.title}
             </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setLiked(isLiked => !isLiked);
+              }}>
+              {liked ? (
+                <Image style={styles.Like} source={Images.Heart} />
+              ) : (
+                <Image style={styles.Like} source={Images.love} />
+              )}
+            </TouchableOpacity>
           </View>
-          <View style={styles.ProductOtherInfo}>
-            <Text style={styles.ProductInfoLabel}>Stock : </Text>
-            <Text style={styles.ProductInfo}>{route?.stock}</Text>
+          <View style={{marginTop: 8, flexDirection: 'row'}}>
+            <FlatList
+              scrollEnabled={false}
+              data={Array(Number(5)).fill('')}
+              horizontal
+              renderItem={({index}) => {
+                console.log(index, route?.rating.toFixed(0));
+                return index < Number(route?.rating.toFixed(0)) ? (
+                  <Image
+                    style={{height: 20, width: 20}}
+                    source={Images.Yellow_Star}
+                  />
+                ) : (
+                  <Image
+                    style={{height: 20, width: 20, tintColor: '#E8E8E8'}}
+                    source={Images.Yellow_Star}
+                  />
+                );
+              }}
+            />
           </View>
-          <View style={styles.ProductOtherInfo}>
-            <Text style={styles.ProductInfoLabel}>Brand : </Text>
-            <Text style={styles.ProductInfo}>{route?.brand}</Text>
+          <Text style={styles.ProductPrice}>${route?.price}</Text>
+          <View style={{marginTop: 24}}>
+            <Text style={{...styles.ThumbnailName, fontSize: 20}}>
+              Specification
+            </Text>
+            <Text style={styles.ProductDescription}>{route?.description}</Text>
+            <View style={styles.ProductOtherInfo}>
+              <Text style={styles.ProductInfoLabel}>Discount : </Text>
+              <Text style={styles.ProductInfo}>
+                {route?.discountPercentage} %
+              </Text>
+            </View>
+            <View style={styles.ProductOtherInfo}>
+              <Text style={styles.ProductInfoLabel}>Stock : </Text>
+              <Text style={styles.ProductInfo}>{route?.stock}</Text>
+            </View>
+            <View style={styles.ProductOtherInfo}>
+              <Text style={styles.ProductInfoLabel}>Brand : </Text>
+              <Text style={styles.ProductInfo}>{route?.brand}</Text>
+            </View>
+            <View style={styles.ProductOtherInfo}>
+              <Text style={styles.ProductInfoLabel}>Category : </Text>
+              <Text style={styles.ProductInfo}>{route.category}</Text>
+            </View>
+            <View style={{width: 40, height: 40, backgroundColor: 'red'}}>
+              <Image
+                style={{width: 40, height: 40}}
+                source={{uri: route?.thumbnail}}
+              />
+            </View>
           </View>
-          <View style={styles.ProductOtherInfo}>
-            <Text style={styles.ProductInfoLabel}>Category : </Text>
-            <Text style={styles.ProductInfo}>{route.category}</Text>
-          </View>
-          <View style={{width: 40, height: 40, backgroundColor: 'red'}}>
-            <Image
-              style={{width: 40, height: 40}}
-              source={{uri: route?.thumbnail}}
+          <View>
+            <Button
+              name={'Add To Cart'}
+              // onPress={() => navigation.navigate('Cart', route)}
+              onPress={() => {
+                dispatch(addToCart(route)),
+                  navigation.navigate('Cart');
+                  console.log('addToCart(route)addToCart(route)',route);
+              }
+              }
             />
           </View>
         </View>
-        <View>
-          <Button
-            name={'Add To Cart'}
-            onPress={() => navigation.navigate('Cart', route)}
-          />
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
