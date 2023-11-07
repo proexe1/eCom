@@ -6,61 +6,72 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
-import {hp, wp} from '../Helpers/Constant';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 import Slider from '../Components/Slider';
 import {useSelector, useDispatch} from 'react-redux';
 import {requestUsers} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {Colors} from '../Helpers/Colors';
 
 const HomeScreen = () => {
-
   const dispatch = useDispatch();
   const cart = useSelector(state => state);
-  // console.log('cartcaASDASASASASASSASASASASASADFASFDSFVDASFVDSrtcart', cart);
   const {navigate} = useNavigation();
   const route = useRoute().params;
 
   useEffect(() => {
     dispatch(requestUsers(Products?.products));
-  }, [usersData]); // asked shubhambhai [...]
+  }, [usersData]); // asked shubhamBhai [...]
 
   const {usersData, isLoading} = useSelector(state => state);
 
-  const FlashSaleItem = ({item, index}) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.FlashSaleItem}>
-      <TouchableOpacity onPress={()=>navigate('ProductDetail')}>
-        <Image style={styles.FlashSaleImage} source={{uri: item.thumbnail}} />
-        <View style={styles.FlashImageData}>
-          <Text numberOfLines={1} style={{...styles.CategoryName, paddingBottom: 8,fontFamily:'Poppins-Light'}}>
-            {item.title}
-          </Text>
-          <Text
-            style={{
-              ...styles.CategoryName,
-              paddingBottom: 8,
-              color: '#40BFFF',
-              fontFamily:'Poppins-Light'
-            }}>
-            $ {item.price}
-          </Text>
-          <View style={{flexDirection:'row'}}>
-          <Text style={{color:'gray',textDecorationLine: 'line-through',}}>$800</Text>
+        <TouchableOpacity onPress={() => navigate('ProductDetail')}>
+          <Image style={styles.FlashSaleImage} source={{uri: item.thumbnail}} />
+          <View style={styles.FlashImageData}>
+            <Text
+              numberOfLines={1}
+              style={{
+                ...styles.CategoryName,
+                paddingBottom: 8,
+                fontFamily: 'Poppins-Light',
+              }}>
+              {item.title}
+            </Text>
             <Text
               style={{
                 ...styles.CategoryName,
                 paddingBottom: 8,
-                color: '#FB7181',
-                fontFamily:'Poppins-Light'
+                color: '#40BFFF',
+                fontFamily: 'Poppins-Light',
               }}>
-               {item.discountPercentage}% off
+              $ {item.price}
             </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: hp(0.5),
+              }}>
+              <Text
+                style={{
+                  color: 'gray',
+                  textDecorationLine: 'line-through',
+                  fontSize: fontSize(12),
+                }}>
+                $800
+              </Text>
+              <Text style={styles.CategoryName1}>
+                {item.discountPercentage}% off
+              </Text>
+            </View>
           </View>
-        </View>
         </TouchableOpacity>
       </View>
     );
@@ -77,18 +88,18 @@ const HomeScreen = () => {
         )}
         <View style={{...styles.CategoryHeading, marginTop: hp(1.5)}}>
           <Text style={styles.FirstHeader}>Flash Sale</Text>
-          <TouchableOpacity onPress={() =>navigate('OfferScreen')}>
+          <TouchableOpacity onPress={() => navigate('OfferScreen')}>
             <Text style={styles.SecondHeader}>See More</Text>
           </TouchableOpacity>
         </View>
         <View>
           <FlatList
+            data={Products?.products?.slice(0, 5)}
             style={{marginTop: hp(2.4)}}
             showsHorizontalScrollIndicator={false}
-            data={Products?.products?.slice(0, 5)}
-            renderItem={FlashSaleItem}
-            horizontal={true}
             bounces={false}
+            horizontal={true}
+            renderItem={renderItem}
           />
         </View>
       </View>
@@ -104,7 +115,7 @@ const styles = StyleSheet.create({
     width: wp(70),
     borderRadius: 5,
     borderWidth: wp(0.2),
-    borderColor: '#9098B1',
+    borderColor: Colors.borderColor,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: wp(4.2),
@@ -126,13 +137,24 @@ const styles = StyleSheet.create({
   },
   SingleLine: {
     height: hp(0.2),
-    backgroundColor: '#EBF0FF',
+    backgroundColor: Colors.SinglelineBackgroundColor,
     marginVertical: wp(4.2),
     width: hp(100),
   },
-  CategoryHeading: {flexDirection: 'row', justifyContent: 'space-between'},
-  FirstHeader: {fontSize: wp(4), fontWeight: '700', color: '#223263'},
-  SecondHeader: {fontSize: wp(4), fontWeight: '700', color: '#40BFFF'},
+  CategoryHeading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  FirstHeader: {
+    fontSize: wp(4),
+    color: Colors.FirstHeaderColor,
+    fontFamily: 'Poppins-Bold',
+  },
+  SecondHeader: {
+    fontSize: wp(4),
+    color: Colors.CommonTextColor,
+    fontFamily: 'Poppins-Bold',
+  },
   SearchAreaPortion: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -141,13 +163,13 @@ const styles = StyleSheet.create({
   category_Image: {
     width: wp(18.66),
     height: wp(18.66),
-    tintColor: '#40BFFF',
+    tintColor: Colors.CommonTextColor,
     borderWidth: 1,
     backgroundColor: 'white',
     borderRadius: wp(18.66),
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#EBF0FF',
+    borderColor: Colors.borderColor,
   },
   CategorySection: {
     marginLeft: wp(4.8),
@@ -155,24 +177,35 @@ const styles = StyleSheet.create({
     height: hp(13.54),
     alignItems: 'center',
   },
-  CategoryImages: {width: wp(6.4), height: wp(6.4), tintColor: '#40BFFF'},
+  CategoryImages: {
+    width: wp(6.4),
+    height: wp(6.4),
+    tintColor: Colors.CommonTextColor,
+  },
   FlashSaleItem: {
     width: wp(37.6),
-    height: hp(25.86),
     marginRight: wp(4.2),
     borderWidth: wp(0.5),
     borderRadius: 5,
     borderColor: '#EBF0FF',
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    paddingVertical: hp(1),
   },
   FlashSaleImage: {
     width: wp(29.6),
     height: wp(29.6),
-    marginTop: hp(1.9),
+    marginTop: hp(0.9),
     borderRadius: 5,
   },
   FlashImageData: {marginTop: hp(0.98)},
   CategoryName: GlobalStyle.fontWeight,
+  CategoryName1: {
+    fontWeight: 'bold',
+    color: Colors.offerTextColor,
+    fontFamily: 'Poppins-Light',
+    fontSize: fontSize(12),
+    marginLeft: wp(2.13),
+  },
 });
 
 export default HomeScreen;

@@ -141,7 +141,7 @@ const ProductDetail = ({navigation, item}) => {
               <Text style={styles.ProductInfoLabel}>Category : </Text>
               <Text style={styles.ProductInfo}>{route.category}</Text>
             </View>
-            <View style={{width: 40, height: 40, backgroundColor: 'red'}}>
+            <View style={{width: 40, height: 40}}>
               <Image
                 style={{width: 40, height: 40}}
                 source={{uri: route?.thumbnail}}
@@ -153,11 +153,9 @@ const ProductDetail = ({navigation, item}) => {
               name={'Add To Cart'}
               // onPress={() => navigation.navigate('Cart', route)}
               onPress={() => {
-                dispatch(addToCart(route)),
-                  navigation.navigate('Cart');
-                  console.log('addToCart(route)addToCart(route)',route);
-              }
-              }
+                dispatch(addToCart(route)), navigation.navigate('Cart');
+                console.log('addToCart(route)addToCart(route)', route);
+              }}
             />
           </View>
         </View>

@@ -1,34 +1,29 @@
-//  add delete product on press of Images.Trash using thunk redux ::
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  TouchableOpacity,
   FlatList,
   ScrollView,
+  StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {hp, wp} from '../Helpers/Constant';
-import {Images} from '../Helpers/Images';
+
 import {useDispatch, useSelector} from 'react-redux';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {Images} from '../Helpers/Images';
+import {hp, wp} from '../Helpers/Constant';
 import {addToCart, deleteToCart, removeToCart} from '../Redux/Actions/Actions';
-import NoProductFound from '../Components/NoProductFound';
+
 const Cart = ({navigation}) => {
-  const cart = useSelector(state => state);
-  console.log('cartcartcart abnhay', cart);
   const dispatch = useDispatch();
+  const cart = useSelector(state => state);
 
   const handleDeleteProduct = RemovedData => {
     dispatch(removeToCart(RemovedData));
   };
 
-  const handleDecreaseQuantity = (item) => {
-    dispatch(deleteToCart(item));
-  };
-
-  const handleCartItem = ({item}) => {
-    console.log('item', item);
+  const renderItems = ({item}) => {
     return (
       <View>
         <View style={styles.cartProduct}>
@@ -42,19 +37,18 @@ const Cart = ({navigation}) => {
                 {item?.title}
               </Text>
               <View style={styles.ProductPriceAndCounter}>
-                <Text style={styles.ProductPrice}>${item?.price}</Text>
+                <Text style={styles.ProductPrice}>
+                  ${item?.price * item?.qty}
+                </Text>
                 <View style={{flexDirection: 'row', paddingLeft: 10}}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => dispatch(deleteToCart(item))}>
                     <Text style={styles.counterSign}>-</Text>
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Text style={styles.counterItem}>{item?.qty}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      console.log('itemitemitemitemitemitemitem', item);
-                      dispatch(addToCart(item));
-                    }}>
+                  <TouchableOpacity onPress={() => dispatch(addToCart(item))}>
                     <Text style={styles.counterSign}>+</Text>
                   </TouchableOpacity>
                 </View>
@@ -83,60 +77,13 @@ const Cart = ({navigation}) => {
         <Text style={styles.ProfileString}>Cart</Text>
       </View>
       <View style={styles.SingleLine} />
-      {console.log('cart', cart)}
       <ScrollView bounces={false}>
         <FlatList
           data={cart?.cart}
           bounces={false}
           style={styles.flatListStyle}
           showsVerticalScrollIndicator={false}
-          renderItem={({item}) => {
-            console.log('qwerty',item);
-            return (
-              <View>
-                <View style={styles.cartProduct}>
-                  <Image
-                    style={styles.cartProductImage}
-                    source={{uri: item?.thumbnail}}
-                  />
-                  <View style={styles.ProductDetails}>
-                    <View style={styles.ProductName}>
-                      <Text numberOfLines={1} style={styles.ProductTitle}>
-                        {item?.title}
-                      </Text>
-                      <View style={styles.ProductPriceAndCounter}>
-                        <Text style={styles.ProductPrice}>${item?.price}</Text>
-                        <View style={{flexDirection: 'row', paddingLeft: 10}}>
-                          <TouchableOpacity onPress={() =>handleDecreaseQuantity(item)}>
-                            <Text style={styles.counterSign}>-</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity>
-                            <Text style={styles.counterItem}>{item?.qty}</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              // console.log('itemitemitemitemitemitemitem', item);
-                              dispatch(addToCart(item));
-                            }}>
-                            <Text style={styles.counterSign}>+</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <TouchableOpacity style={{paddingRight: 10}}>
-                        <Image style={styles.like} source={Images.love} />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => handleDeleteProduct(item?.id)}>
-                        <Image style={{...styles.like}} source={Images.Trash} />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
+          renderItem={renderItems}
         />
       </ScrollView>
     </SafeAreaView>
@@ -169,8 +116,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  ProductName: {justifyContent: 'space-between', paddingLeft: 12,},
-  ProductTitle: {fontWeight: 'bold', color: '#223263',width:180},
+  ProductName: {justifyContent: 'space-between', paddingLeft: 12},
+  ProductTitle: {fontWeight: 'bold', color: '#223263', width: 180},
   ProductPriceAndCounter: {
     flexDirection: 'row',
     justifyContent: 'space-around',

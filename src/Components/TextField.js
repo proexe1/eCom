@@ -1,18 +1,16 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {Image} from 'react-native';
-import { hp, wp } from '../Helpers/Constant';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 
-const TextField = ({
-  placeholder,
-  value,
-  onChangeText,
-  source,
-}) => {
+const TextField = ({placeholder, value, onChangeText, source}) => {
   const [PasswordVisible, setPasswordVisible] = useState(true);
   return (
     <View style={styles.container}>
-      <Image source={source}  style={{height: hp(4), width: wp(4), resizeMode:'contain'}}/>
+      <Image
+        source={source}
+        style={{height: hp(4), width: wp(4), resizeMode: 'contain'}}
+      />
       <TextInput
         placeholder={placeholder}
         style={styles.TextInput}
@@ -25,11 +23,11 @@ const TextField = ({
 };
 
 const styles = StyleSheet.create({
-  container: {flex:1, alignItems:'center', flexDirection:'row'},
+  container: {flex: 1, alignItems: 'center', flexDirection: 'row'},
   TextInput: {
-    fontSize: 20,
+    fontSize: fontSize(14),
     marginHorizontal: 10,
-    marginVertical: 20,
+    fontFamily: 'Poppins-SemiBold',
   },
 });
 

@@ -16,20 +16,10 @@ export const addToCart = addToCartData => async dispatch => {
   });
 };
 
-export const deleteToCart = (item) =>async (dispatch, getState) => {
-  const { cart } = getState();
-
-  const existingCartItem = cart.find((cartItem) => cartItem.id === item.id);
-
-  if (existingCartItem) {
-    if (existingCartItem.qty > 1) {
-      dispatch({ type: USER.IDC_CART, payload: item });
-    } else {
-      // If the quantity is 1, remove the item from the cart
-      dispatch(removeToCart(item));
-    }
-  }
-};
+export const deleteToCart = data => ({
+  type: USER.IDC_CART,
+  payload: data,
+});
 
 export const removeToCart = RemovedData => async dispatch => {
   dispatch({
@@ -50,7 +40,6 @@ export const requestUsers = data => async dispatch => {
     });
   } catch (e) {
     dispatch({
-      // type: USER.LOAD_SUCCESS,
       type: USER.LOAD,
       usersData: [],
       isError: true,

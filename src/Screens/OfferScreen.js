@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import {hp, wp} from '../Helpers/Constant';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 import {Images} from '../Helpers/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {filterData, requestUsers} from '../Redux/Actions/Actions';
@@ -24,7 +24,7 @@ const OfferScreen = ({navigation}) => {
   const {
     usersData,
     isLoading,
-    filterData:filterData2,
+    filterData: filterData2,
   } = useSelector(state => state);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState();
@@ -40,6 +40,8 @@ const OfferScreen = ({navigation}) => {
     {url: Images.groceries},
     {url: Images.HomeDecore},
   ];
+
+  const dummyData = ['View All', '1', '2', '3', '4', '5'];
 
   useEffect(() => {
     dispatch(requestUsers(Products?.products));
@@ -67,7 +69,7 @@ const OfferScreen = ({navigation}) => {
     });
     setCategory(unique);
   };
-  
+
   const handleFilterCategory = category => {
     setAbcData(category);
     const temp = Products?.products.filter(item => item.category == category);
@@ -86,6 +88,7 @@ const OfferScreen = ({navigation}) => {
     });
     dispatch(filterData(temp));
   };
+
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -98,7 +101,42 @@ const OfferScreen = ({navigation}) => {
           }}>
           <Image style={styles.CategoryImage} source={data[index]?.url} />
         </View>
-        <Text style={{fontSize: 15}}>{item.category}</Text>
+        <Text
+          style={{
+            fontSize: fontSize(14),
+            fontFamily: 'Poppins-Medium',
+            marginTop: hp(0.7),
+            textAlign: 'center',
+          }}>
+          {item.category}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const categoryRenderItem = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={{
+          ...styles.RatingFlatList,
+          borderColor: item == starData ? '#40BFFF' : '#EBF0FF',
+        }}
+        onPress={() => handleStarCategory(item)}>
+        {item == 'View All' ? (
+          <Text style={{fontFamily: 'Poppins-Medium'}}>{item}</Text>
+        ) : (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Image
+              style={{width: 20, height: 20, marginRight: wp(1)}}
+              source={Images.Star}
+            />
+            <Text style={{fontFamily: 'Poppins-Medium'}}>{item}</Text>
+          </View>
+        )}
       </TouchableOpacity>
     );
   };
@@ -116,7 +154,7 @@ const OfferScreen = ({navigation}) => {
             <Text
               numberOfLines={1}
               style={{
-                ...styles.ThumbnailName,
+                ...GlobalStyle.fontWeight,
                 paddingVertical: 8,
                 fontFamily: 'Poppins-Thin',
               }}>
@@ -142,30 +180,37 @@ const OfferScreen = ({navigation}) => {
             />
             <Text
               style={{
-                ...styles.ThumbnailName,
+                ...GlobalStyle.fontWeight,
                 paddingBottom: 8,
                 color: '#40BFFF',
                 fontFamily: 'Poppins-Thin',
+                marginVertical: hp(0.5),
               }}>
               $ {item.price}
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: hp(0.5),
+              }}>
               <Text
                 style={{
                   color: 'gray',
                   textDecorationLine: 'line-through',
-                  fontFamily: 'Poppins-Medium',
+                  fontSize: fontSize(14),
                 }}>
                 $800
               </Text>
               <Text
                 style={{
-                  ...styles.ThumbnailName,
-                  paddingBottom: 8,
+                  ...GlobalStyle.fontWeight,
                   color: '#FB7181',
-                  fontFamily: 'Poppins-Thin',
+                  fontFamily: 'Poppins-Light',
+                  fontSize: fontSize(14),
+                  marginLeft: wp(2.13),
                 }}>
-                {item.discountPercentage} % OFF
+                {item.discountPercentage}% off
               </Text>
             </View>
           </View>
@@ -202,7 +247,6 @@ const OfferScreen = ({navigation}) => {
             <Text style={styles.SecondHeader}>More Category</Text>
           </TouchableOpacity>
         </View>
-
         <FlatList
           bounces={false}
           style={{marginTop: 12}}
@@ -213,28 +257,21 @@ const OfferScreen = ({navigation}) => {
           horizontal={true}
         />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View>
         <FlatList
-          data={['View All', '1', '2', '3', '4', '5']}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              style={{
-                ...styles.RatingFlatList,
-                borderColor: item == starData ? '#40BFFF' : '#EBF0FF',
-              }}
-              onPress={() => handleStarCategory(item)}>
-              {item == 'View All' ? (
-                <Text>{item}</Text>
-              ) : (
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image style={{width: 20, height: 20}} source={Images.Star} />
-                  <Text>{item}</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          )}
+          data={dummyData}
           horizontal
+          bounces={false}
           showsHorizontalScrollIndicator={false}
+          style={{
+            marginHorizontal: 16,
+            paddingVertical: hp(1),
+          }}
+          ItemSeparatorComponent={() => {
+            return <View style={{width: 10}}></View>;
+          }}
+          contentContainerStyle={{alignItems: 'center', paddingVertical: 10}}
+          renderItem={categoryRenderItem}
         />
       </View>
 
@@ -244,11 +281,6 @@ const OfferScreen = ({navigation}) => {
         </View>
       )}
       <FlatList
-        ListEmptyComponent={<NoProductFound />}
-        bounces={false}
-        style={styles.FlashSaleFlatList}
-        showsHorizontalScrollIndicator={false}
-        // data={searchText.length > 0 ? filteredData : Products?.products }
         data={
           searchText.length > 0
             ? filteredData
@@ -256,10 +288,14 @@ const OfferScreen = ({navigation}) => {
             ? Products.products
             : filterData2
         }
-        // data={searchText.length > 0? filteredData : starData == 'View All' ? Products.products : filterData2 || Products.products}
-        renderItem={FlashSaleItem}
         numColumns={2}
+        bounces={false}
+        style={styles.FlashSaleFlatList}
         showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        renderItem={FlashSaleItem}
+        ListEmptyComponent={<NoProductFound />}
+        // data={searchText.length > 0 ? filteredData : Products?.products }
       />
     </SafeAreaView>
   );
@@ -319,8 +355,8 @@ const styles = StyleSheet.create({
   },
   categoryParentView: {
     width: wp(26.66),
-    height: hp(13.54),
     alignItems: 'center',
+    marginVertical: hp(1),
   },
   categoryImageView: {
     width: wp(18.66),
@@ -331,7 +367,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#EBF0FF',
   },
-  CategoryImage: {width: wp(6.4), height: wp(6.4), tintColor: '#40BFFF'},
+  CategoryImage: {
+    width: wp(6.4),
+    height: wp(6.4),
+    tintColor: '#40BFFF',
+  },
   FlashSaleItem: {
     marginRight: wp(3.4),
     marginBottom: wp(1.6),
@@ -350,7 +390,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     borderRadius: 5,
   },
-  ThumbnailName: GlobalStyle.fontWeight,
   ViewAllString: {
     borderWidth: 1,
     borderRadius: 5,
@@ -362,46 +401,17 @@ const styles = StyleSheet.create({
     paddingTop: hp(1.8),
   },
   RatingFlatList: {
+    height: hp(5),
     borderWidth: 1,
     borderRadius: 5,
-    marginLeft: wp(3.2),
     width: wp(16.53),
-    height: hp(6.15),
     alignItems: 'center',
-    justifyContent: 'center',
     borderColor: '#EBF0FF',
+    justifyContent: 'center',
   },
   FlashSaleFlatList: {
-    // marginTop: hp(2.4),
-    // marginHorizontal: wp(1.33),
-    // marginBottom: hp(30),
+    marginTop: hp(2.4),
   },
 });
 
 export default OfferScreen;
-
-{
-  /* {category?.map((star,index)=>
-          <Image style={{width:10,height:10}} source={Images.Star}/>
-        )} */
-}
-{
-  /* {new Array(category.rating).fill(null).map(()=>(
-          <Image style={{width:10,height:10}} source={Images.Star}/>
-        ))} */
-}
-
-{
-  /* <View
-            style={{
-              justifyContent: 'flex-end',
-              paddingTop: 8,
-            }}>
-            <TouchableOpacity style={{position: 'absolute', top: 50}}>
-              <Image
-                style={{width: wp(6.4), height: wp(6.4), marginLeft: 110}}
-                source={Images.Trash}
-              />
-            </TouchableOpacity>
-          </View> */
-}

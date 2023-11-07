@@ -9,13 +9,12 @@ import {
   ScrollView,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {hp, wp} from '../Helpers/Constant';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 import {Images} from '../Helpers/Images';
 import TextField from '../Components/TextField';
 import {useSelector, useDispatch} from 'react-redux';
 import {requestUsers} from '../Redux/Actions/Actions';
-import { Products, products } from '../Helpers/JsonData';
-
+import {Products, products} from '../Helpers/JsonData';
 
 const data = [
   {url: Images.All},
@@ -32,7 +31,6 @@ const Explore = ({navigation}) => {
   const [flashSale, setFlashSale] = useState([]);
   const {usersData, isLoading} = useSelector(state => state);
   const dispatch = useDispatch();
-  // console.log('Products*****************',Products);
 
   useEffect(() => {
     abc();
@@ -43,10 +41,8 @@ const Explore = ({navigation}) => {
   const abc = async () => {
     var size = 5;
     var items = await usersData?.slice(0, size).map(i => {
-      console.log(i);
       return i;
     });
-    console.log(items);
     setFlashSale(items);
   };
 
@@ -56,66 +52,64 @@ const Explore = ({navigation}) => {
       if (!unique.some(item => item.category === element.category)) {
         let temp = {
           category: element.category,
-          // image: element.thumbnail,
-          // image : data[arr]?.url
         };
-        console.log('unique--------------------------****', unique);
-        // unique.push(temp);
         return unique.push(temp);
       }
     });
     setCategory(unique);
-    console.log('unique--------------***', unique);
   };
 
   const renderItem = ({item, index}) => {
-    const finalUrl = data.map(item => {
-      return item.url;
-    });
-
     return (
-      <View style={styles.CategorySection}>
-        <TouchableOpacity>
-          <View style={styles.category_Image}>
-            <Image style={styles.CategoryImages} source={data[index]?.url} />
-          </View>
-        </TouchableOpacity>
-        <Text style={{fontSize: hp(2.21)}}>{item?.category}</Text>
-      </View>
+      <TouchableOpacity style={styles.CategorySection}>
+        <View style={styles.category_Image}>
+          <Image style={styles.CategoryImages} source={data[index]?.url} />
+        </View>
+        <Text
+          style={{
+            marginVertical: hp(1),
+            fontSize: fontSize(16),
+            fontFamily: 'Poppins-Medium',
+            color: 'grey',
+          }}>
+          {item?.category}
+        </Text>
+      </TouchableOpacity>
     );
   };
   return (
-      <SafeAreaView style={styles.container}>
-    <ScrollView>
-        <View style={styles.SearchAreaPortion}>
-          <View style={styles.Searchbar}>
-            <Image style={styles.SearchIcon} source={Images.Searchbar} />
-            <TextField placeholder={'Search Product'} />
-          </View>
-          <Image style={styles.SocialIcon} source={Images.love} />
-          <Image style={styles.SocialIcon} source={Images.Notification} />
-          <Image style={styles.DoteOnBellIcon} source={Images.Dote} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.SearchAreaPortion}>
+        <View style={styles.Searchbar}>
+          <Image style={styles.SearchIcon} source={Images.Searchbar} />
+          <TextField placeholder={'Search Product'} />
         </View>
-        <View style={styles.SingleLine} />
-        <View style={{marginHorizontal: 16,flex:1,}}>
+        <Image style={styles.SocialIcon} source={Images.love} />
+        <Image style={styles.SocialIcon} source={Images.Notification} />
+        <Image style={styles.DoteOnBellIcon} source={Images.Dote} />
+      </View>
+      <View style={styles.SingleLine} />
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <View style={{flex: 1, marginTop: hp(1), marginHorizontal: wp(3)}}>
           {isLoading && (
             <View>
               <Text>Data loading...</Text>
             </View>
           )}
-          <View style={{justifyContent:'space-between',flex:1,}}>
+          <View style={{justifyContent: 'space-between', flex: 1}}>
             <FlatList
-              style={{marginTop: hp(1.4)}}
-              showsHorizontalScrollIndicator={false}
               data={category}
-              renderItem={renderItem}
-              keyExtractor={({index}) => index}
               numColumns={2}
+              bounces={false}
+              keyExtractor={({index}) => index}
+              showsHorizontalScrollIndicator={false}
+              renderItem={renderItem}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         </View>
-    </ScrollView>
-      </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -125,12 +119,13 @@ const styles = StyleSheet.create({
   },
   Searchbar: {
     width: wp(70),
-    borderRadius: 5,
+    borderRadius: 6,
     borderWidth: wp(0.2),
     borderColor: '#9098B1',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: wp(4.2),
+    paddingVertical: hp(0.5),
   },
   SearchIcon: {
     width: wp(4.2),
@@ -148,22 +143,34 @@ const styles = StyleSheet.create({
     marginTop: -15,
   },
   SingleLine: {
+    width: hp(100),
     height: hp(0.2),
     backgroundColor: '#EBF0FF',
-    marginVertical: wp(4.2),
-    width: hp(100),
+    marginTop: hp(4.2),
   },
-  CategoryHeading: {flexDirection: 'row', justifyContent: 'space-between'},
-  FirstHeader: {fontSize: wp(4), fontWeight: '700', color: '#223263'},
-  SecondHeader: {fontSize: wp(4), fontWeight: '700', color: '#40BFFF'},
+  CategoryHeading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  FirstHeader: {
+    fontSize: wp(4),
+    fontWeight: '700',
+    color: '#223263',
+  },
+  SecondHeader: {
+    fontSize: wp(4),
+    fontWeight: '700',
+    color: '#40BFFF',
+  },
   SearchAreaPortion: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: hp(1.9),
+    marginTop: hp(2),
   },
   category_Image: {
-    width: wp(18.66),
-    height: wp(18.66),
+    width: wp(16),
+    height: wp(16),
     tintColor: '#40BFFF',
     borderWidth: 1,
     backgroundColor: 'white',
@@ -171,12 +178,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#EBF0FF',
+    marginTop: hp(1),
   },
   CategorySection: {
-    flex:1,
-    alignItems:'center'
+    flex: 1,
+    margin: hp(2),
+    padding: hp(1),
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: hp(0.2),
+    borderColor: '#EBF0FF',
+    borderRadius: hp(1),
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowOffset: {width: 3, height: 3},
   },
-  CategoryImages: {width: wp(6.4), height: wp(6.4), tintColor: '#40BFFF'},
+  CategoryImages: {
+    // width: wp(6.4),
+    // height: wp(6.4),
+    height: hp(3.5),
+    width: hp(3.5),
+    tintColor: '#40BFFF',
+  },
+  // CategoryImages: {width: wp(6.4), height: wp(6.4), tintColor: '#40BFFF'},
   FlashSaleItem: {
     width: wp(37.6),
     height: hp(25.86),
@@ -186,7 +211,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#EBF0FF',
   },
-  FlashSaleImage: {width: wp(29.6), height: wp(29.6), marginTop: hp(1.9)},
+  FlashSaleImage: {
+    width: wp(29.6),
+    height: wp(29.6),
+    marginTop: hp(1.9),
+  },
 });
 
 export default Explore;
