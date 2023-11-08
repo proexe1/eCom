@@ -7,4 +7,5 @@ export const Colors = {
   CommonTextColor: '#40BFFF',
   borderColor: '#EBF0FF',
   offerTextColor: '#FB7181',
+  HeaderTextColor: '#223263',
 };

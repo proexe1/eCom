@@ -27,6 +27,7 @@
     "react": "18.1.0",
     "react-native": "0.70.13",
     "react-native-asset": "^2.1.1",
+    "react-native-dashed-line": "^1.1.0",
     "react-native-paper": "^5.10.6",
     "react-native-ratings": "^8.1.0",
     "react-native-responsive-fontsize": "^0.5.1",

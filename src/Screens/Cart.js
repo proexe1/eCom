@@ -12,8 +12,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {Images} from '../Helpers/Images';
-import {hp, wp} from '../Helpers/Constant';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 import {addToCart, deleteToCart, removeToCart} from '../Redux/Actions/Actions';
+import NoProductFound from '../Components/NoProductFound';
+import {Colors} from '../Helpers/Colors';
+import DashedLine from 'react-native-dashed-line';
 
 const Cart = ({navigation}) => {
   const dispatch = useDispatch();
@@ -78,13 +81,34 @@ const Cart = ({navigation}) => {
       </View>
       <View style={styles.SingleLine} />
       <ScrollView bounces={false}>
-        <FlatList
-          data={cart?.cart}
-          bounces={false}
-          style={styles.flatListStyle}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItems}
-        />
+        <View>
+          <FlatList
+            data={cart?.cart}
+            bounces={false}
+            style={styles.flatListStyle}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItems}
+          />
+          <View style={styles.BillingParentView}>
+            <View style={styles.BillingContentView}>
+              <Text style={styles.BillingText}>items</Text>
+              <Text style={styles.BillingContentPrice}>$598.86</Text>
+            </View>
+            <View style={styles.BillingContentView}>
+              <Text style={styles.BillingText}>Shipping</Text>
+              <Text style={styles.BillingContentPrice}>$40.00</Text>
+            </View>
+            <View style={styles.BillingContentView}>
+              <Text style={styles.BillingText}>Import charges</Text>
+              <Text style={styles.BillingContentPrice}>$128.00</Text>
+            </View>
+            <DashedLine dashLength={5} dashColor="#EBF0FF" dashGap={5} />
+            <View style={styles.TotalPrice}>
+              <Text style={styles.TotalPriceText}>Total Price</Text>
+              <Text style={styles.TotalPriceRate}>$598.86</Text>
+            </View>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -148,6 +172,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBF0FF',
     marginVertical: wp(4.2),
     width: hp(100),
+  },
+  BillingParentView: {
+    borderWidth: 2,
+    borderColor: Colors.borderColor,
+    borderRadius: 5,
+    marginTop: hp(3.9),
+    marginHorizontal: 17,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  BillingContentView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: hp(1.4),
+  },
+  BillingText: {
+    fontFamily: 'Poppins',
+    fontSize: fontSize(18),
+    color: Colors.textColor,
+  },
+  BillingContentPrice: {
+    fontFamily: 'Poppins',
+    fontSize: fontSize(18),
+    color: Colors.textColor,
+  },
+  TotalPrice: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+  },
+  TotalPriceText: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: fontSize(18),
+    color: Colors.HeaderTextColor,
+    letterSpacing: 0.5,
+  },
+  TotalPriceRate: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: fontSize(18),
+    color: Colors.CommonTextColor,
   },
 });
 
