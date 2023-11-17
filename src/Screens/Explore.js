@@ -29,7 +29,7 @@ const data = [
 const Explore = ({navigation}) => {
   const [category, setCategory] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
-  const {usersData, isLoading} = useSelector(state => state);
+  const {usersData, isLoading} = useSelector(state => state?.counter);
   const dispatch = useDispatch();
 
   useEffect(() => {

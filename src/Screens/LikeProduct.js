@@ -14,10 +14,10 @@ import {hp, wp} from '../Helpers/Constant';
 import {Images} from '../Helpers/Images';
 import {useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import { useState } from 'react';
+import {useState} from 'react';
 
 const Cart = ({navigation}) => {
-  const cart = useSelector(state => state);
+  const cart = useSelector(state => state?.counter);
   const handleCartItem = ({item}) => {
     return (
       <View style={styles.cartProduct}>
@@ -98,7 +98,7 @@ const Cart = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <Text>liked Products</Text>
+      <Text>liked Products</Text>
       <View style={styles.SingleLine} />
       <ScrollView bounces={false}>
         <FlatList

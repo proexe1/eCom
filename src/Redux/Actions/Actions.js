@@ -1,7 +1,6 @@
 import USER from '../Constant';
 
 export const filterData = filteredData => async dispatch => {
-  // console.log('filteredData..........',filteredData);
   dispatch({
     type: USER.FILTERED_DATA,
     payload: filteredData,
@@ -25,6 +24,12 @@ export const removeToCart = RemovedData => async dispatch => {
   dispatch({
     type: USER.REMOVE_CART,
     payload: RemovedData,
+  });
+};
+export const ABC = () => async dispatch => {
+  dispatch({
+    type: 'ABHAY',
+    payload: '',
   });
 };
 

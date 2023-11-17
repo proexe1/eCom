@@ -45,7 +45,7 @@ const UserProfile = ({navigation}) => {
           auth()
             .signOut()
             .then(() => console.log('User signed out!'));
-          // navigation.dispatch(StackActions.replace('LoginUser'));
+          navigation.dispatch(StackActions.replace('LoginUser'));
         }}
         style={styles.LogOutButton}>
         <Text style={styles.LogOutString}>Log Out</Text>

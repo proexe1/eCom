@@ -8,6 +8,7 @@ import TabNavigation from './TabNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import LikeProduct from '../Screens/LikeProduct';
+import PaymentMethod from '../Screens/PaymentMethod';
 
 const Stack = createNativeStackNavigator();
 const user = auth()?.currentUser?.uid;
@@ -38,6 +39,11 @@ const StackNavigation = () => {
         <Stack.Screen
           name="LikeProduct"
           component={LikeProduct}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentMethod"
+          component={PaymentMethod}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

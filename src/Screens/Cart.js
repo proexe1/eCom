@@ -17,11 +17,12 @@ import {addToCart, deleteToCart, removeToCart} from '../Redux/Actions/Actions';
 import NoProductFound from '../Components/NoProductFound';
 import {Colors} from '../Helpers/Colors';
 import DashedLine from 'react-native-dashed-line';
+import Button from '../Components/Button';
 
 const Cart = ({navigation}) => {
   const dispatch = useDispatch();
-  const cart = useSelector(state => state);
-
+  const cart = useSelector(state => state?.counter);
+  console.log('cart?.cart', cart?.cart);
   const handleDeleteProduct = RemovedData => {
     dispatch(removeToCart(RemovedData));
   };
@@ -71,6 +72,47 @@ const Cart = ({navigation}) => {
     );
   };
 
+  const RenderBill = () => {
+    let itemsTotal = 0;
+
+    // TotalPrice
+    cart.cart.forEach(item => {
+      itemsTotal += item.price * item.qty;
+    });
+
+    const shippingCharge = 40.0; //fix
+    const importCharges = 10.0; // fix
+    const totalAmount = itemsTotal + shippingCharge + importCharges; // 0 + 40 + 10
+
+    return (
+      <View style={styles.BillingParentView}>
+        <View style={styles.BillingContentView}>
+          <Text style={styles.BillingText}>Items</Text>
+          <Text style={styles.BillingContentPrice}>
+            ${itemsTotal.toFixed(2)}
+          </Text>
+        </View>
+        <View style={styles.BillingContentView}>
+          <Text style={styles.BillingText}>Shipping</Text>
+          <Text style={styles.BillingContentPrice}>
+            ${shippingCharge.toFixed(2)}
+          </Text>
+        </View>
+        <View style={styles.BillingContentView}>
+          <Text style={styles.BillingText}>Import charges</Text>
+          <Text style={styles.BillingContentPrice}>
+            ${importCharges.toFixed(2)}
+          </Text>
+        </View>
+        <DashedLine dashLength={5} dashColor="#EBF0FF" dashGap={5} />
+        <View style={styles.TotalPrice}>
+          <Text style={styles.TotalPriceText}>Total Price</Text>
+          <Text style={styles.TotalPriceRate}>${totalAmount.toFixed(2)}</Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.ProfileHeaderView}>
@@ -80,36 +122,31 @@ const Cart = ({navigation}) => {
         <Text style={styles.ProfileString}>Cart</Text>
       </View>
       <View style={styles.SingleLine} />
-      <ScrollView bounces={false}>
-        <View>
-          <FlatList
-            data={cart?.cart}
-            bounces={false}
-            style={styles.flatListStyle}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItems}
-          />
-          <View style={styles.BillingParentView}>
-            <View style={styles.BillingContentView}>
-              <Text style={styles.BillingText}>items</Text>
-              <Text style={styles.BillingContentPrice}>$598.86</Text>
-            </View>
-            <View style={styles.BillingContentView}>
-              <Text style={styles.BillingText}>Shipping</Text>
-              <Text style={styles.BillingContentPrice}>$40.00</Text>
-            </View>
-            <View style={styles.BillingContentView}>
-              <Text style={styles.BillingText}>Import charges</Text>
-              <Text style={styles.BillingContentPrice}>$128.00</Text>
-            </View>
-            <DashedLine dashLength={5} dashColor="#EBF0FF" dashGap={5} />
-            <View style={styles.TotalPrice}>
-              <Text style={styles.TotalPriceText}>Total Price</Text>
-              <Text style={styles.TotalPriceRate}>$598.86</Text>
+      {cart?.cart?.length ? (
+        <ScrollView bounces={false}>
+          <View>
+            <FlatList
+              data={cart?.cart}
+              bounces={false}
+              style={styles.flatListStyle}
+              showsVerticalScrollIndicator={false}
+              renderItem={renderItems}
+            />
+            <RenderBill />
+
+            <View style={{alignItems: 'center'}}>
+              <Button
+                name={'Check Out'}
+                onPress={() => {
+                  navigation.navigate('PaymentMethod');
+                }}
+              />
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      ) : (
+        <NoProductFound />
+      )}
     </SafeAreaView>
   );
 };

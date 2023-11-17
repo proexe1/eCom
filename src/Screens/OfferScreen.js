@@ -25,7 +25,7 @@ const OfferScreen = ({navigation}) => {
     usersData,
     isLoading,
     filterData: filterData2,
-  } = useSelector(state => state);
+  } = useSelector(state => state?.counter);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState();
   const [abcData, setAbcData] = useState('All View');
