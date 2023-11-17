@@ -210,7 +210,7 @@ const OfferScreen = ({navigation}) => {
                   fontSize: fontSize(14),
                   marginLeft: wp(2.13),
                 }}>
-                {item.discountPercentage}% off
+                {item.discountPercentage}% offs
               </Text>
             </View>
           </View>
