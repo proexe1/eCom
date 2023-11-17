@@ -10,7 +10,6 @@ import {fontSize, hp, wp} from '../Helpers/Constant';
 import {Colors} from '../Helpers/Colors';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
 
-
 const LoginUser = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,7 +50,6 @@ const LoginUser = ({navigation}) => {
       );
       alert('Your data is successfully passed!');
       // alert(isUserCreate);  // asked issue to Shubham bhai
-
     } catch (error) {
       console.log('This is an error...', error.message);
       Alert.alert(Constant.ErrorMsg);
@@ -101,7 +99,7 @@ const LoginUser = ({navigation}) => {
           // createUser();
           handleSignUp();
         }}
-      //  onPress={handleSignUp}
+        //  onPress={handleSignUp}
         disabled={emailValidError || pwdValidError}
       />
       <Text style={styles.OR}>{String.LoginUser.OR}</Text>
@@ -120,7 +118,7 @@ const LoginUser = ({navigation}) => {
       <Text style={styles.FP}>{String.LoginUser.FP}</Text>
       <View style={{flexDirection: 'row', marginTop: hp(1)}}>
         <Text style={styles.DontQuestion}>{String.LoginUser.DontQuestion}</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('RegisterUser')}>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterUser')}>
           <Text style={styles.SignUp}>{String.LoginUser.SignUp}</Text>
         </TouchableOpacity>
       </View>
