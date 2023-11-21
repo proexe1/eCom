@@ -2,8 +2,15 @@ import React, {useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {Image} from 'react-native';
 import {fontSize, hp, wp} from '../Helpers/Constant';
+import {keyboardType} from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
-const TextField = ({placeholder, value, onChangeText, source}) => {
+const TextField = ({
+  placeholder,
+  value,
+  onChangeText,
+  source,
+  keyboardType,
+}) => {
   const [PasswordVisible, setPasswordVisible] = useState(true);
   return (
     <View style={styles.container}>
@@ -14,6 +21,7 @@ const TextField = ({placeholder, value, onChangeText, source}) => {
       <TextInput
         placeholder={placeholder}
         style={styles.TextInput}
+        keyboardType={keyboardType}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={!PasswordVisible}
@@ -25,8 +33,9 @@ const TextField = ({placeholder, value, onChangeText, source}) => {
 const styles = StyleSheet.create({
   container: {flex: 1, alignItems: 'center', flexDirection: 'row'},
   TextInput: {
+    flex: 1,
     fontSize: fontSize(14),
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
     fontFamily: 'Poppins-SemiBold',
   },
 });

@@ -72,7 +72,7 @@ const OfferScreen = ({navigation}) => {
 
   const handleFilterCategory = category => {
     setAbcData(category);
-    const temp = Products?.products.filter(item => item.category == category);
+    const temp = Products?.products.filter(item => item.category === category);
     dispatch(filterData(temp));
   };
 
@@ -210,7 +210,7 @@ const OfferScreen = ({navigation}) => {
                   fontSize: fontSize(14),
                   marginLeft: wp(2.13),
                 }}>
-                {item.discountPercentage}% offs
+                {item.discountPercentage}% off
               </Text>
             </View>
           </View>

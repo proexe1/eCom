@@ -30,6 +30,7 @@ const Reducers = (state = initialState, action) => {
       const existingItemIndex = state?.cart?.findIndex(
         item => item.id === itemToAdd.id,
       );
+      console.log('itemToAdd = action.payload', action?.payload);
 
       if (existingItemIndex !== -1) {
         const updatedCart = [...state.cart];
@@ -50,21 +51,21 @@ const Reducers = (state = initialState, action) => {
       }
 
     case USER.DECREASE_CART:
-      const itemToDecrease = action.payload;
+      const itemToDecrease = action?.payload;
       const existingItemIndexDecrease = state?.cart?.findIndex(
-        item => item.id === itemToDecrease.id,
+        item => item?.id === itemToDecrease?.id,
       );
+      console.log('itemToDecrease = action?.payload', action?.payload);
 
       if (existingItemIndexDecrease !== -1) {
-        const updatedCart = [...state.cart];
+        const updatedCart = [...state?.cart];
         updatedCart[existingItemIndexDecrease] = {
           ...updatedCart[existingItemIndexDecrease],
-          qty:
-            updatedCart[existingItemIndexDecrease].qty <= 1
-              ? 1
-              : updatedCart[existingItemIndexDecrease].qty - 1,
+          qty: updatedCart[existingItemIndexDecrease].qty - 1,
+          // updatedCart[existingItemIndexDecrease].qty <= 1
+          //   ? 1
+          //   : updatedCart[existingItemIndexDecrease].qty - 1,
         };
-
         return {
           ...state,
           cart: updatedCart,

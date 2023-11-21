@@ -10,13 +10,10 @@ import {
 import {Images} from '../Helpers/Images';
 import {wp} from '../Helpers/Constant';
 import {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-const PaymentMethod = ({navigation}) => {
-  const data = [
-    {id: '1', url: Images.CD_Cart, name: 'Credit Card Or Debit'},
-    {id: '2', url: Images.PayPal, name: 'PayPal'},
-    {id: '3', url: Images.Bank, name: 'Bank Transfer'},
-  ];
+const PaymentMethod = () => {
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,22 +27,24 @@ const PaymentMethod = ({navigation}) => {
         <Text style={styles.ProfileString}>Payment</Text>
       </View>
 
-      {data.map(item => (
-        <TouchableOpacity
-          key={item.id}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 28,
-            paddingVertical: 19,
-            paddingHorizontal: 16,
-          }}>
-          <Image style={{width: 24, height: 24}} source={item.url} />
-          <Text style={{marginLeft: 16, fontFamily: 'Poppins-SemiBold'}}>
-            {item.name}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      <TouchableOpacity
+        style={styles.PaymentMethodOption}
+        onPress={() => {
+          navigation.navigate('CreditOrDebit');
+        }}>
+        <Image style={{width: 24, height: 24}} source={Images.CD_Cart} />
+        <Text style={styles.PaymentMethodString}>Credit Card Or Debit</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.PaymentMethodOption}>
+        <Image style={{width: 24, height: 24}} source={Images.PayPal} />
+        <Text style={styles.PaymentMethodString}>PayPal</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.PaymentMethodOption}>
+        <Image style={{width: 24, height: 24}} source={Images.Bank} />
+        <Text style={styles.PaymentMethodString}>Bank Transfer</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -53,6 +52,7 @@ const PaymentMethod = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   ProfileHeaderView: {
     flexDirection: 'row',
@@ -60,6 +60,14 @@ const styles = StyleSheet.create({
   },
   LeftIcon: {width: 24, height: 24, marginLeft: 16, marginRight: 12},
   ProfileString: {fontSize: 16, fontFamily: 'Poppins-Regular'},
+  PaymentMethodOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 28,
+    paddingVertical: 19,
+    paddingHorizontal: 16,
+  },
+  PaymentMethodString: {marginLeft: 16, fontFamily: 'Poppins-SemiBold'},
 });
 
 export default PaymentMethod;

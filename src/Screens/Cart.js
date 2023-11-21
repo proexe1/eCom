@@ -46,7 +46,10 @@ const Cart = ({navigation}) => {
                 </Text>
                 <View style={{flexDirection: 'row', paddingLeft: 10}}>
                   <TouchableOpacity
-                    onPress={() => dispatch(deleteToCart(item))}>
+                    onPress={() => {
+                      dispatch(deleteToCart(item));
+                      console.log('minus event ::', item?.qty);
+                    }}>
                     <Text style={styles.counterSign}>-</Text>
                   </TouchableOpacity>
                   <TouchableOpacity>

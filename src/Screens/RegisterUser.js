@@ -15,7 +15,6 @@ import {Images} from '../Helpers/Images';
 import {RFValue} from 'react-native-responsive-fontsize';
 import firestore from '@react-native-firebase/firestore';
 
-
 export const fontSize = val => RFValue(val, 812);
 export const wp = val => widthPercentageToDP(val);
 export const hp = val => heightPercentageToDP(val);
@@ -92,7 +91,7 @@ const RegisterUser = ({navigation}) => {
             placeholder={'Full Name'}
             onChangeText={txt => setFullName(txt)}
             style={
-              fullNameValidError ? {borderColor: 'blue', borderWidth: 2} : {}
+              fullNameValidError ? {borderColor: 'blue', borderWidth: 2} : {} //it's not workable
             }
             onFocus={() => setFullNameValidError('')}
           />
@@ -164,5 +163,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   TextFieldIcon: GlobalStyle.TextFieldIcon,
-  TextFieldArea: {flexDirection: 'row', marginTop: 24}
+  TextFieldArea: {flexDirection: 'row', marginTop: 24},
 });

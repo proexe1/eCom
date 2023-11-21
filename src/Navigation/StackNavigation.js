@@ -9,6 +9,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import LikeProduct from '../Screens/LikeProduct';
 import PaymentMethod from '../Screens/PaymentMethod';
+import ChooseCreditOrDebit from '../Screens/ChooseCreditOrDebit';
+import CreditCard from '../Screens/CreditCard';
+import AddCard from '../Screens/AddCard';
+import UpdateCard from '../Screens/UpdateCard';
 
 const Stack = createNativeStackNavigator();
 const user = auth()?.currentUser?.uid;
@@ -44,6 +48,26 @@ const StackNavigation = () => {
         <Stack.Screen
           name="PaymentMethod"
           component={PaymentMethod}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreditOrDebit"
+          component={ChooseCreditOrDebit}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreditCard"
+          component={CreditCard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddCard"
+          component={AddCard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UpdateCard"
+          component={UpdateCard}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

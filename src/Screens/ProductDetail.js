@@ -17,7 +17,6 @@ import {GlobalStyle} from '../Helpers/GlobalStyle';
 import Button from '../Components/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../Redux/Actions/Actions';
-import USER from '../Redux/Constant';
 
 const ProductDetail = ({navigation, item}) => {
   const dispatch = useDispatch();

@@ -8,4 +8,5 @@ export const Colors = {
   borderColor: '#EBF0FF',
   offerTextColor: '#FB7181',
   HeaderTextColor: '#223263',
+  WhiteColor: '#fff',
 };

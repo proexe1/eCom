@@ -33,4 +33,7 @@ export const Images = {
   CD_Cart: require('../Assests/CreditCard.png'),
   PayPal: require('../Assests/Paypal.png'),
   Bank: require('../Assests/Bank.png'),
+  Plus: require('../Assests/Plus.png'),
+  creditCard: require('../Assests/cardbg.png'),
+  SmallRounds: require('../Assests/CreditCardUIDesign.png'),
 };

@@ -50,7 +50,10 @@ export const GlobalStyle = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 5,
   },
-  fontWeight:{
-    fontWeight:'bold'
-  }
+  fontWeight: {
+    fontWeight: 'bold',
+  },
+  directionRow: {
+    flexDirection: 'row',
+  },
 });
