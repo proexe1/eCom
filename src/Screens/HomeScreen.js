@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import {fontSize, hp, wp} from '../Helpers/Constant';
 import Slider from '../Components/Slider';
 import {useSelector, useDispatch} from 'react-redux';
-import {ABC, requestUsers} from '../Redux/Actions/Actions';
+import {ABC} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -19,16 +19,14 @@ import {Colors} from '../Helpers/Colors';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(state => state?.counter);
   const {navigate} = useNavigation();
-  const route = useRoute().params;
 
   // useEffect(() => {
   //   dispatch(requestUsers(Products?.products));
   // }, [usersData]); // asked shubhamBhai [...]
 
-  const {usersData, isLoading, abhay} = useSelector(state => state?.counter);
-  console.log('abhay q1w22222', abhay);
+  const {isLoading} = useSelector(state => state?.counter);
+
   const renderItem = ({item}) => {
     return (
       <View style={styles.FlashSaleItem}>
@@ -54,7 +52,7 @@ const HomeScreen = () => {
                 color: '#40BFFF',
                 fontFamily: 'Poppins-Light',
               }}>
-              $ {item?.price}
+              ${item?.price}
             </Text>
             <View
               style={{

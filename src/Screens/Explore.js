@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import {Images} from '../Helpers/Images';
 import TextField from '../Components/TextField';
 import {useSelector, useDispatch} from 'react-redux';
 import {requestUsers} from '../Redux/Actions/Actions';
-import {Products, products} from '../Helpers/JsonData';
+import {Products} from '../Helpers/JsonData';
 
 const data = [
   {url: Images.All},
@@ -26,7 +26,7 @@ const data = [
   {url: Images.HomeDecore},
 ];
 
-const Explore = ({navigation}) => {
+const Explore = () => {
   const [category, setCategory] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
   const {usersData, isLoading} = useSelector(state => state?.counter);
@@ -195,13 +195,10 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 3, height: 3},
   },
   CategoryImages: {
-    // width: wp(6.4),
-    // height: wp(6.4),
     height: hp(3.5),
     width: hp(3.5),
     tintColor: '#40BFFF',
   },
-  // CategoryImages: {width: wp(6.4), height: wp(6.4), tintColor: '#40BFFF'},
   FlashSaleItem: {
     width: wp(37.6),
     height: hp(25.86),

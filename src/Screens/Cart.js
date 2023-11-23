@@ -22,7 +22,6 @@ import Button from '../Components/Button';
 const Cart = ({navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state?.counter);
-  console.log('cart?.cart', cart?.cart);
   const handleDeleteProduct = RemovedData => {
     dispatch(removeToCart(RemovedData));
   };

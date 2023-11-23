@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {Images} from '../Helpers/Images';
 import Icon from '../Components/Icon';
-import TextField from '../Components/TextField';
+import {Images} from '../Helpers/Images';
+import {String} from '../Helpers/String';
+import {Colors} from '../Helpers/Colors';
 import Button from '../Components/Button';
 import auth from '@react-native-firebase/auth';
-import {String} from '../Helpers/String';
-import {fontSize, hp, wp} from '../Helpers/Constant';
-import {Colors} from '../Helpers/Colors';
+import TextField from '../Components/TextField';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 
 const LoginUser = ({navigation}) => {
   const [email, setEmail] = useState('');

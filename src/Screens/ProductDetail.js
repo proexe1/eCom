@@ -44,7 +44,7 @@ const ProductDetail = ({navigation, item}) => {
             </TouchableOpacity>
             <Text style={styles.ProductTitle}>{route.title}</Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={GlobalStyle.directionRow}>
             <TouchableOpacity>
               <Image style={styles.Left} source={Images.Searchbar} />
             </TouchableOpacity>
@@ -95,7 +95,7 @@ const ProductDetail = ({navigation, item}) => {
               )}
             </TouchableOpacity>
           </View>
-          <View style={{marginTop: 8, flexDirection: 'row'}}>
+          <View style={{marginTop: 8}}>
             <FlatList
               scrollEnabled={false}
               data={Array(Number(5)).fill('')}

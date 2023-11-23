@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,8 +6,6 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  TextInput,
-  Alert,
 } from 'react-native';
 import {hp, wp} from '../Helpers/Constant';
 import {Images} from '../Helpers/Images';
@@ -46,10 +44,6 @@ const AddCard = () => {
       });
     }
   };
-
-  console.log('holderNameholderNameholderName', holderName);
-
-  console.log('holderNameValidError', holderNameValidError.length);
 
   return (
     <SafeAreaView style={styles.container}>

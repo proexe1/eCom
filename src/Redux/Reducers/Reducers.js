@@ -17,6 +17,7 @@ const Reducers = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+
     case USER.LOAD_SUCCESS:
       return {
         ...state,
@@ -25,6 +26,7 @@ const Reducers = (state = initialState, action) => {
         filterData: action?.payload,
         cart: [],
       };
+
     case USER.CART_DATA:
       const itemToAdd = action.payload;
       const existingItemIndex = state?.cart?.findIndex(
@@ -50,21 +52,20 @@ const Reducers = (state = initialState, action) => {
         };
       }
 
-    case USER.DECREASE_CART:
-      const itemToDecrease = action?.payload;
+    case USER.IDC_CART:
+      const itemToDecrease = action.payload;
       const existingItemIndexDecrease = state?.cart?.findIndex(
-        item => item?.id === itemToDecrease?.id,
+        item => item.id === itemToDecrease.id,
       );
-      console.log('itemToDecrease = action?.payload', action?.payload);
 
       if (existingItemIndexDecrease !== -1) {
-        const updatedCart = [...state?.cart];
+        const updatedCart = [...state.cart];
         updatedCart[existingItemIndexDecrease] = {
           ...updatedCart[existingItemIndexDecrease],
-          qty: updatedCart[existingItemIndexDecrease].qty - 1,
-          // updatedCart[existingItemIndexDecrease].qty <= 1
-          //   ? 1
-          //   : updatedCart[existingItemIndexDecrease].qty - 1,
+          qty:
+            updatedCart[existingItemIndexDecrease].qty <= 1
+              ? 1
+              : updatedCart[existingItemIndexDecrease].qty - 1,
         };
         return {
           ...state,

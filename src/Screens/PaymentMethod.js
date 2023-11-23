@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {Images} from '../Helpers/Images';
-import {wp} from '../Helpers/Constant';
-import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 const PaymentMethod = () => {
@@ -58,16 +56,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  LeftIcon: {width: 24, height: 24, marginLeft: 16, marginRight: 12},
-  ProfileString: {fontSize: 16, fontFamily: 'Poppins-Regular'},
+  LeftIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: 16,
+    marginRight: 12,
+  },
+  ProfileString: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+  },
   PaymentMethodOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 28,
     paddingVertical: 19,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
-  PaymentMethodString: {marginLeft: 16, fontFamily: 'Poppins-SemiBold'},
+  PaymentMethodString: {
+    marginLeft: 16,
+    fontFamily: 'Poppins-SemiBold',
+  },
 });
 
 export default PaymentMethod;

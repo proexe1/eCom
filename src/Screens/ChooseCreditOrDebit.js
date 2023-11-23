@@ -1,10 +1,5 @@
-import React, {Component, useState} from 'react';
-import {
-  Image,
-  ImageBackground,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {View, Text, StyleSheet} from 'react-native';
 import {Images} from '../Helpers/Images';
 import {hp, wp} from '../Helpers/Constant';

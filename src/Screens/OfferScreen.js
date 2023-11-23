@@ -10,13 +10,13 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import {fontSize, hp, wp} from '../Helpers/Constant';
 import {Images} from '../Helpers/Images';
-import {useSelector, useDispatch} from 'react-redux';
-import {filterData, requestUsers} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
+import {useSelector, useDispatch} from 'react-redux';
+import {fontSize, hp, wp} from '../Helpers/Constant';
 import NoProductFound from '../Components/NoProductFound';
+import {filterData, requestUsers} from '../Redux/Actions/Actions';
 
 const OfferScreen = ({navigation}) => {
   const dispatch = useDispatch();

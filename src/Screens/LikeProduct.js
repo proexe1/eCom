@@ -1,20 +1,17 @@
+import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  TouchableOpacity,
   FlatList,
+  StyleSheet,
   ScrollView,
-  TextInput,
-  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {hp, wp} from '../Helpers/Constant';
-import {Images} from '../Helpers/Images';
-import {useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {useState} from 'react';
+import {Images} from '../Helpers/Images';
+import {hp, wp} from '../Helpers/Constant';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Cart = ({navigation}) => {
   const cart = useSelector(state => state?.counter);
