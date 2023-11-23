@@ -36,4 +36,5 @@ export const Images = {
   Plus: require('../Assests/Plus.png'),
   creditCard: require('../Assests/cardbg.png'),
   SmallRounds: require('../Assests/CreditCardUIDesign.png'),
+  NavBar: require('../Assests/menu.png'),
 };

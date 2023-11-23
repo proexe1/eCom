@@ -222,6 +222,12 @@ const OfferScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.SearchAreaPortion}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            style={{width: 20, height: 20, marginRight: 5, tintColor: 'gray'}}
+            source={Images.NavBar}
+          />
+        </TouchableOpacity>
         <View style={styles.Searchbar}>
           <TextInput
             style={{flex: 1, height: 50}}
@@ -306,13 +312,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   Searchbar: {
-    width: wp(70),
+    width: wp(65),
     borderRadius: 5,
     borderWidth: wp(0.2),
     borderColor: '#9098B1',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: wp(4.2),
+    marginLeft: wp(3.2),
   },
   SearchIcon: {
     width: wp(4.2),
@@ -321,7 +328,7 @@ const styles = StyleSheet.create({
   SocialIcon: {
     width: wp(6.4),
     height: wp(6.4),
-    marginLeft: wp(4.2),
+    marginLeft: wp(2.2),
   },
   DoteOnBellIcon: {
     width: wp(2.1),

@@ -95,7 +95,7 @@ const LoginUser = ({navigation}) => {
       <Button
         name={'Sign in'}
         onPress={() => {
-          navigation.navigate('TabNavigation');
+          navigation.navigate('DrawerNavigation');
           // createUser();
           handleSignUp();
         }}

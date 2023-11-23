@@ -118,8 +118,14 @@ const Cart = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.ProfileHeaderView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image style={styles.LeftIcon} source={Images.Left} />
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            style={{width: 20, height: 20, marginRight: 5, tintColor: 'gray'}}
+            source={Images.NavBar}
+          />
         </TouchableOpacity>
         <Text style={styles.ProfileString}>Cart</Text>
       </View>
@@ -205,7 +211,7 @@ const styles = StyleSheet.create({
   },
   ProfileHeaderView: {flexDirection: 'row', marginHorizontal: 16},
   LeftIcon: {width: 24, height: 24},
-  ProfileString: {fontSize: 16, fontWeight: '700'},
+  ProfileString: {fontSize: 16, fontWeight: '700', marginLeft: 10},
   SingleLine: {
     height: hp(0.2),
     backgroundColor: '#EBF0FF',

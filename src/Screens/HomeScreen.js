@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,23 +14,25 @@ import {useSelector, useDispatch} from 'react-redux';
 import {ABC} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
 import {GlobalStyle} from '../Helpers/GlobalStyle';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../Helpers/Colors';
+import {Images} from '../Helpers/Images';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const {navigate} = useNavigation();
+  const navigation = useNavigation();
 
   // useEffect(() => {
   //   dispatch(requestUsers(Products?.products));
-  // }, [usersData]); // asked shubhamBhai [...]
+  // }, [usersData]);
 
   const {isLoading} = useSelector(state => state?.counter);
 
   const renderItem = ({item}) => {
     return (
       <View style={styles.FlashSaleItem}>
-        <TouchableOpacity onPress={() => navigate('ProductDetail', item)}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ProductDetail', item)}>
           <Image
             style={styles.FlashSaleImage}
             source={{uri: item?.thumbnail}}
@@ -79,6 +81,12 @@ const HomeScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <Image
+          style={{width: 20, height: 20, marginLeft: 10}}
+          source={Images.NavBar}
+        />
+      </TouchableOpacity>
       <View style={styles.SingleLine} />
       <View style={{marginHorizontal: 16}}>
         <Slider />
@@ -95,7 +103,7 @@ const HomeScreen = () => {
             style={styles.FirstHeader}>
             <Text>Flash Sale</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigate('OfferScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('OfferScreen')}>
             <Text style={styles.SecondHeader}>See More</Text>
           </TouchableOpacity>
         </View>

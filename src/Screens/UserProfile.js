@@ -30,14 +30,17 @@ const UserProfile = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.ProfileHeaderView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image style={styles.LeftIcon} source={Images.Left} />
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            style={{width: 20, height: 20, marginRight: 5, tintColor: 'gray'}}
+            source={Images.NavBar}
+          />
         </TouchableOpacity>
         <Text style={styles.ProfileString}>Profile</Text>
       </View>
       <View style={styles.SingleLine} />
       <Image style={styles.UserIconImage} source={Images.user} />
-      <Text style={{fontWeight: '700', marginTop: hp(10)}}>
+      <Text style={{fontWeight: '700', marginTop: hp(10), marginLeft: 10}}>
         Email: {userData?.Email}
       </Text>
       <TouchableOpacity
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   SingleLine: {
     height: hp(0.2),
@@ -66,6 +69,7 @@ const styles = StyleSheet.create({
   },
   ProfileHeaderView: {
     flexDirection: 'row',
+    marginHorizontal: 16,
   },
   LeftIcon: {
     width: 24,
@@ -74,6 +78,7 @@ const styles = StyleSheet.create({
   ProfileString: {
     fontSize: 16,
     fontWeight: '700',
+    paddingLeft: 10,
   },
   UserIconImage: {
     width: 72,
@@ -92,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 50,
+    marginLeft: 10,
   },
   LogOutString: {
     color: 'white',

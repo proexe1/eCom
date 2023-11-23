@@ -4,7 +4,6 @@ import RegisterUser from '../Screens/RegisterUser';
 import LoginUser from '../Screens/LoginUser';
 import ProductDetail from '../Screens/ProductDetail';
 import {NavigationContainer} from '@react-navigation/native';
-import TabNavigation from './TabNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import LikeProduct from '../Screens/LikeProduct';
@@ -13,16 +12,23 @@ import ChooseCreditOrDebit from '../Screens/ChooseCreditOrDebit';
 import CreditCard from '../Screens/CreditCard';
 import AddCard from '../Screens/AddCard';
 import UpdateCard from '../Screens/UpdateCard';
+import DrawerNavigation from './DrawerNavigation';
 
 const Stack = createNativeStackNavigator();
 const user = auth()?.currentUser?.uid;
 const StackNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={user ? 'HomeScreen' : 'RegisterUser'}>
-        <Stack.Screen
+      <Stack.Navigator
+        initialRouteName={user ? 'DrawerNavigation' : 'RegisterUser'}>
+        {/* <Stack.Screen
           name="TabNavigation"
           component={TabNavigation}
+          options={{headerShown: false}}
+        /> */}
+        <Stack.Screen
+          name="DrawerNavigation"
+          component={DrawerNavigation}
           options={{headerShown: false}}
         />
         <Stack.Screen

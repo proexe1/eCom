@@ -15,6 +15,7 @@ import TextField from '../Components/TextField';
 import {useSelector, useDispatch} from 'react-redux';
 import {requestUsers} from '../Redux/Actions/Actions';
 import {Products} from '../Helpers/JsonData';
+import {useNavigation} from '@react-navigation/native';
 
 const data = [
   {url: Images.All},
@@ -30,6 +31,7 @@ const Explore = () => {
   const [category, setCategory] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
   const {usersData, isLoading} = useSelector(state => state?.counter);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,6 +82,12 @@ const Explore = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.SearchAreaPortion}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            style={{width: 20, height: 20, marginRight: 5, tintColor: 'gray'}}
+            source={Images.NavBar}
+          />
+        </TouchableOpacity>
         <View style={styles.Searchbar}>
           <Image style={styles.SearchIcon} source={Images.Searchbar} />
           <TextField placeholder={'Search Product'} />
@@ -118,13 +126,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   Searchbar: {
-    width: wp(70),
+    width: wp(60),
     borderRadius: 6,
     borderWidth: wp(0.2),
     borderColor: '#9098B1',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: wp(4.2),
+    marginLeft: wp(4.2),
     paddingVertical: hp(0.5),
   },
   SearchIcon: {
@@ -134,7 +143,7 @@ const styles = StyleSheet.create({
   SocialIcon: {
     width: wp(6.4),
     height: wp(6.4),
-    marginLeft: wp(4.2),
+    marginLeft: wp(3),
   },
   DoteOnBellIcon: {
     width: wp(2.1),

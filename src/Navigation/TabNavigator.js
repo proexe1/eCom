@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from '../Screens/HomeScreen';
 import UserProfile from '../Screens/UserProfile';
 import Explore from '../Screens/Explore';
 import OfferScreen from '../Screens/OfferScreen';
 import Cart from '../Screens/Cart';
-import { Images } from '../Helpers/Images';
+import {Images} from '../Helpers/Images';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigation = () => {
+const TabNavigation = ({navigation}) => {
   return (
     <Tab.Navigator
+      initialRouteName="HomeScreen"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -67,7 +67,11 @@ const TabNavigation = () => {
         component={OfferScreen}
         options={{headerShown: false}}
       />
-      <Tab.Screen name="UserProfile" component={UserProfile} options={{headerShown: false}}/>
+      <Tab.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{headerShown: false}}
+      />
     </Tab.Navigator>
   );
 };
